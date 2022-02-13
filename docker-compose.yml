@@ -1,0 +1,31 @@
+version: "3.0"
+services:
+  app-instance:
+    build:
+      context: ./
+      dockerfile: ./provisioning/app.dockerfile
+    working_dir: /var/www/rsu
+    restart: always
+    volumes:
+      - ./:/var/www/rsu
+      - ./../storage/alumni/storage/app/:/var/www/rsu/storage/app/
+    environment:
+      - TZ=Asia/Bangkok
+    networks:
+      - app-instance-network
+  web:
+    build:
+      context: ./
+      dockerfile: ./provisioning/web.dockerfile
+    working_dir: /var/www
+    restart: always
+    volumes:
+      - ./:/var/www/rsu
+      - ./../storage/alumni/storage/app/:/var/www/rsu/storage/app/
+    ports:
+      - 30222:80
+    networks:
+      - app-instance-network
+networks:
+  app-instance-network:
+    driver: bridge

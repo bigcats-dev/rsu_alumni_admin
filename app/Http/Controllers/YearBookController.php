@@ -10,7 +10,9 @@ use App\Http\Requests\YearBookRequest;
 use App\Models\Faculty;
 use App\Models\Major;
 use App\Models\YearBookFile;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Intervention\Image\Facades\Image;
 
 class YearBookController extends Controller
 {
@@ -56,23 +58,24 @@ class YearBookController extends Controller
 
             $datas = collect($buildQuery->get()->toArray())
                 ->transform(function ($i) {
-                    $i["files"] = YearBookFile::where("yearbook_id",$i["yearbook_id"])
-                        ->where("file_type","application/pdf")
+                    $i["files"] = YearBookFile::where("yearbook_id", $i["yearbook_id"])
+                        ->where("file_type", "application/pdf")
                         ->get()
-                        ->transform(function($f){
+                        ->transform(function ($f) {
                             return [
                                 "name" => $f->file_origin_name,
-                                "url" => asset("storage/".$f->file_path),
+                                "url" => asset("storage/" . $f->file_path),
                                 "size" => Helper::filesize_formatted($f->file_size),
                             ];
                         });
-                    $i["images"] = YearBookFile::where("yearbook_id",$i["yearbook_id"])
+                    $i["images"] = YearBookFile::where("yearbook_id", $i["yearbook_id"])
                         ->whereRaw("file_type LIKE 'image%'")
+                        ->orderByDesc("id")
                         ->get()
-                        ->transform(function($f){
+                        ->transform(function ($f) {
                             return [
                                 "name" => $f->file_origin_name,
-                                "url" => asset("storage/".$f->file_path),
+                                "url" => asset("storage/" . $f->file_path),
                                 "size" => Helper::filesize_formatted($f->file_size),
                             ];
                         });
@@ -155,6 +158,16 @@ class YearBookController extends Controller
                                 "file_size" => $file->getSize(),
                                 "file_path" => $path,
                             ]));
+
+                            if (in_array($extension, ["png", "jpg", "jpeg"])) {
+                                // create thumbnails
+                                $imageResize = Image::make(Storage::path($path))
+                                    ->resize(340, 180, function ($constraint) {
+                                        $constraint->aspectRatio();
+                                    })
+                                    ->encode($extension);
+                                Storage::put($directory . "/thumbnails/" . $filename, $imageResize);
+                            }
                         }
                     };
                     if ($uploadPdf) $upload($request->file("files"), $model);
@@ -231,31 +244,46 @@ class YearBookController extends Controller
                     $filename = uniqid() . "." . $extension;
                     $path = $file->storeAs($directory, $filename, "public");
                     if ($path) {
-                        YearBookFile::updateOrCreate(
-                            $search,
-                            [
+                        $bookFile = YearBookFile::where("yearbook_id",$book->yearbook_id)
+                            ->whereIn("file_type", $search)
+                            ->orderByDesc("id")
+                            ->first();
+                        if ($bookFile) {
+                            $bookFile->update([
                                 "file_name" => $filename,
                                 "file_origin_name" => $file->getClientOriginalName(),
                                 "file_type" => $file->getClientMimeType(),
                                 "file_size" => $file->getSize(),
                                 "file_path" => $path,
-                            ]
-                        );
+                            ]);
+                        } else {
+                            $book->files()->save(new YearBookFile([
+                                "file_name" => $filename,
+                                "file_origin_name" => $file->getClientOriginalName(),
+                                "file_type" => $file->getClientMimeType(),
+                                "file_size" => $file->getSize(),
+                                "file_path" => $path,
+                            ]));
+                        }
+
+                        if (in_array($extension, ["png", "jpg", "jpeg"])) {
+                            // create thumbnails
+                            $imageResize = Image::make(Storage::path($path))
+                                ->resize(340, 180, function ($constraint) {
+                                    $constraint->aspectRatio();
+                                })
+                                ->encode($extension);
+                            Storage::put($directory . "/thumbnails/" . $filename, $imageResize);
+                        }
                     }
                 };
                 if ($uploadPdf) $upload(
                     $request->file("files"),
-                    [
-                        'yearbook_id' => $book->yearbook_id,
-                        'file_type' => 'application/pdf'
-                    ]
+                    ['application/pdf']
                 );
                 if ($uploadImg) $upload(
                     $request->file("images"),
-                    [
-                        'yearbook_id' => $book->yearbook_id,
-                        'file_type' => ['image/jpeg', 'image/png', 'image/jpg']
-                    ]
+                    ['image/jpeg', 'image/png', 'image/jpg']
                 );
             });
             return redirect()->route("year-book.index")->with("success", "บันทึกข้อมูลหนังสือรุ่นเรียบร้อย");

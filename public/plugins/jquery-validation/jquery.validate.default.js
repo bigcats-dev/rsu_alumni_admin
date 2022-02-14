@@ -147,3 +147,15 @@ $.validator.methods.number = function (value, element) {
     element.value = element.value.replace(",", "")
     return this.optional(element) || /^-?(?:\d+|\d{1,3}(?:[\s\.]\d{3})+)(?:[\.]\d+)?$/.test(value);
 }
+
+$.validator.addMethod('minheight', function (value, element, param) {
+    if ($(element).attr('height')) {
+        return $(element).attr('height') >= param;
+    } return this.optional(element) || true;
+}, 'A altura deve ser exatamente {0}px');
+
+$.validator.addMethod('minwidth', function (value, element, param) {
+    if ($(element).attr('width')) {
+        return $(element).attr('width') >= param;
+    } return this.optional(element) || true;
+}, 'A largura deve ser exatamente {0}px');

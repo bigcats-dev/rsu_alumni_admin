@@ -61,7 +61,8 @@
                                             class="form-control form-control-border" 
                                             name="hyperlink"
                                             required
-                                            placeholder="URL"
+                                            placeholder="(http,https://example.com)"
+                                            data-msg-url="รูปแบบ URL ไม่ถูกต้อง"
                                             value="{{old("hyperlink",$data->hyperlink ?? "")}}">
                                     </div>
                                 </div> 
@@ -171,6 +172,8 @@
                                             "required" => is_null($data->image ?? null) ,
                                             "image" => $data->image ?? null,
                                             "multiple" => false,
+                                            "width" => 341,
+                                            "height" => 180,
                                         ])
                                     </div>
                                 </div>

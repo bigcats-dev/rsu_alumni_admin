@@ -1,11 +1,16 @@
 <div class="img-update-template" id="img-update-template">
-    <span class="text-danger">เฉพาะไฟล์ที่มีนามสกุล jpg,jepg และ png</span>
+    <span class="text-danger">เฉพาะไฟล์ที่มีนามสกุล jpg,jepg และ png (กว้าง {{$width ?? 9999}} px , สูง {{$height ?? 9999}} px)</span>
     <div class="custom-file mb-1">
         <input 
             type="file" 
             class="custom-file-input"
             id="customFileImg"
             name="{{$name}}"
+            width="{{$width ?? 9999}}"
+            height="{{$height ?? 9999}}"
+            data-msg-minwidth="ขนาดความกว้างของภาพขั้นต่ำ {{$width ?? 0}} px"
+            data-msg-minheight="ขนาดความสูงของภาพขั้นต่ำ {{$height ?? 0}} px"
+            data-msg-minheight=""
             @if ($multiple ?? false)
                 multiple
             @endif
@@ -56,6 +61,7 @@
                 <span id="filename">{1}</span>
                 (<span>
                     <strong id="filesize">{2}</strong>
+                    , ขนาด กว้าง {3} px , สูง {4} px
                 </span>)
             </p>
         </div> 

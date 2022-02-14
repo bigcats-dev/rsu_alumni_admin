@@ -176,6 +176,8 @@ return [
         App\Providers\RouteServiceProvider::class,
         // Oracle
         Yajra\Oci8\Oci8ServiceProvider::class,
+        // Resize Image
+        Intervention\Image\ImageServiceProvider::class
     ],
 
     /*
@@ -231,6 +233,8 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         // helper class
         'Helper' => App\Helpers\Helper::class,
+        // Resize Image
+        'Image' => Intervention\Image\Facades\Image::class
     ],
 
 ];

@@ -5,11 +5,20 @@ RUN apt-get update && apt-get install  -y cron supervisor libpng-dev libmcrypt-d
     && pecl install imagick mcrypt-1.0.2 \
     libjpeg62-turbo-dev \
     libpng-dev \
+    libjpeg62 \
     libaio1 wget && apt-get clean autoclean && apt-get autoremove --yes &&  rm -rf /var/lib/{apt,dpkg,cache,log}/ \
     && docker-php-ext-enable imagick mcrypt \
     && docker-php-ext-install pdo_mysql \
-    && docker-php-ext-install zip \
-    && docker-php-ext-install gd
+    && docker-php-ext-install zip
+
+RUN docker-php-ext-configure gd \
+        --with-freetype-dir=/usr/lib/ \
+        --with-png-dir=/usr/lib/ \
+        --with-jpeg-dir=/usr/lib/ \
+        --with-gd
+
+RUN NUMPROC=$(grep -c ^processor /proc/cpuinfo 2>/dev/null || 1) \
+    && docker-php-ext-install -j${NUMPROC} gd
     
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- \

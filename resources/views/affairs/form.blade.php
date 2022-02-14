@@ -75,6 +75,8 @@
                                                     class="form-check-input" 
                                                     name="hyperlink_type" 
                                                     value="1"
+                                                    required
+                                                    data-msg-required="จำเป็นต้องเลือก"
                                                     {{old("hyperlink_type",$data->hyperlink_type ?? "") == "1"
                                                         ? "checked"
                                                         : ""}}>กลุ่ม facebook
@@ -87,6 +89,8 @@
                                                     class="form-check-input" 
                                                     name="hyperlink_type" 
                                                     value="2"
+                                                    required
+                                                    data-msg-required="จำเป็นต้องเลือก"
                                                     {{old("hyperlink_type",$data->hyperlink_type ?? "") == "2"
                                                         ? "checked"
                                                         : ""}}>Facebook Fanpage และร้านค้า IG 
@@ -99,6 +103,8 @@
                                                     class="form-check-input" 
                                                     name="hyperlink_type" 
                                                     value="3"
+                                                    required
+                                                    data-msg-required="จำเป็นต้องเลือก"
                                                     {{old("hyperlink_type",$data->hyperlink_type ?? "") == "3"
                                                         ? "checked"
                                                         : ""}}>Website

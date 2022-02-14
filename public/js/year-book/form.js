@@ -39,7 +39,12 @@ var frmSave = $('form#frmSave'),
                     extension: 'pdf'
                 },
                 images:{
-                    extension: 'jpg|png|jpeg|gif'
+                    extension: 'jpg|png|jpeg|gif',
+                    minwidth: 341,
+                    minheight: 180,
+                },
+                hyperlink:{
+                    url: true,
                 }
             },
             errorPlacement: function(error, element){

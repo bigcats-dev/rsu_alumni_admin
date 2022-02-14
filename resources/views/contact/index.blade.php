@@ -71,7 +71,7 @@
                     </div>
                     <div class="form-group row">
                         <div class="col-xl-2 col-12">
-                            <label for="">ลิงค์เว็ปไซต์สมาคมศิษย์เก่า</label>
+                            <label for="">ลิงค์สมาคมศิษย์เก่า</label>
                         </div>
                         <div class="col-xl-8 col-12">
                             <input 
@@ -81,6 +81,18 @@
                                 placeholder="http://example.com"
                                 required
                                 value="{{old("alumni_web_url",$alumni_web_url ?? "")}}">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-xl-2 col-12">
+                            <label for="">รูปแบนเนอร์สมาคมศิษย์เก่า</label>
+                        </div>
+                        <div class="col-xl-8 col-12">
+                            @include("inputs.fileupload_img",[
+                                "name" => "banner",
+                                "required" => is_null($banner->file_path ? $banner : null) ,
+                                "image" => $banner->file_path ? $banner : null
+                            ])
                         </div>
                     </div>
                     <div class="col-10 p-0">
@@ -101,4 +113,5 @@
 @endsection
 @section("script")
     <script src="{{ URL::asset("js/contact/index.js?t=".time()) }}"></script>
+    <script src="{{ URL::asset("js/inputs/fileupload_img.js?t=".time()) }}"></script>
 @endsection

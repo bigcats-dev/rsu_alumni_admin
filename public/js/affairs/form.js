@@ -32,6 +32,8 @@ var frmSave = $('form#frmSave'),
             errorPlacement: function(error, element){
                 if (element.hasClass("summernote")) {
                     error.insertAfter(element.siblings(".note-editor"));
+                } else if (element.attr('name') == 'hyperlink_type'){
+                    error.appendTo(element.parent().parent().parent())
                 } else {
                     error.insertAfter(element);
                 }

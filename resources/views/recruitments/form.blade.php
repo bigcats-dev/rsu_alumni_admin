@@ -289,7 +289,9 @@
                                     @include("inputs.fileupload_img",[
                                         "name" => "files",
                                         "required" => is_null($data->image ?? null) ,
-                                        "image" => $data->image ?? null
+                                        "image" => $data->image ?? null,
+                                        "width" => 700,
+                                        "height" => 350,
                                     ])
                                 </div> 
                                 <div class="col-12 p-0"> 

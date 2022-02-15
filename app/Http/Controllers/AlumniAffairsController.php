@@ -9,6 +9,8 @@ use App\Helpers\Helper;
 use App\Http\Requests\AffairRequest;
 use App\Models\AlumniAffairsImage;
 use Illuminate\Support\Str;
+use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Storage;
 
 class AlumniAffairsController extends Controller
 {
@@ -106,7 +108,7 @@ class AlumniAffairsController extends Controller
     {
         $request->validated();
         try {
-            DB::transaction(function() use ($request){
+            DB::transaction(function () use ($request) {
                 $upload = false;
                 if ($request->hasFile("files")) {
                     if (!in_array($request->file("files")->getClientOriginalExtension(), ["png", "jpg", "jpeg"])) {
@@ -129,6 +131,14 @@ class AlumniAffairsController extends Controller
                             "file_size" => $file->getSize(),
                             "file_path" => $path,
                         ]));
+
+                        // create thumbnails
+                        $imageResize = Image::make(Storage::path($path))
+                            ->resize(340, 180, function ($constraint) {
+                                $constraint->aspectRatio();
+                            })
+                            ->encode($extension);
+                        Storage::put($directory . "/thumbnails/" . $filename, $imageResize);
                     }
                 }
             });
@@ -146,7 +156,7 @@ class AlumniAffairsController extends Controller
      */
     public function show(AlumniAffairs $affairs)
     {
-        return view("affairs.form",["data" => $affairs]);
+        return view("affairs.form", ["data" => $affairs]);
     }
 
     /**
@@ -157,7 +167,7 @@ class AlumniAffairsController extends Controller
      */
     public function edit(AlumniAffairs $affairs)
     {
-        return view("affairs.form",["data" => $affairs]);
+        return view("affairs.form", ["data" => $affairs]);
     }
 
     /**
@@ -171,7 +181,7 @@ class AlumniAffairsController extends Controller
     {
         $request->validated();
         try {
-            DB::transaction(function() use ($request, $affairs){
+            DB::transaction(function () use ($request, $affairs) {
                 $upload = false;
                 if ($request->hasFile("files")) {
                     if (!in_array($request->file("files")->getClientOriginalExtension(), ["png", "jpg", "jpeg"])) {
@@ -197,6 +207,14 @@ class AlumniAffairsController extends Controller
                                 "file_path" => $path,
                             ]
                         );
+
+                        // create thumbnails
+                        $imageResize = Image::make(Storage::path($path))
+                            ->resize(340, 180, function ($constraint) {
+                                $constraint->aspectRatio();
+                            })
+                            ->encode($extension);
+                        Storage::put($directory . "/thumbnails/" . $filename, $imageResize);
                     }
                 }
             });
@@ -214,7 +232,7 @@ class AlumniAffairsController extends Controller
      */
     public function destroy(AlumniAffairs $affairs)
     {
-        $affairs->update(["status" => 0 , "approved" => 0]);
+        $affairs->update(["status" => 0, "approved" => 0]);
         return redirect()->back()->with("success", "บันทึกข้อมูลกิจการศิษย์เก่าเรียบร้อย");
     }
 

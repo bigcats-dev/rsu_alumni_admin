@@ -37,10 +37,10 @@
                                 method="POST" id="frmSave" enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-group row">
-                                    <div class="col-xl-2 col-12">
+                                    <div class="col-xl-1 col-12">
                                         <label for="">หัวข้อข่าว</label>
                                     </div>
-                                    <div class="col-xl-8 col-12">
+                                    <div class="col-xl-11 col-12">
                                         <input 
                                             type="text" 
                                             class="form-control form-control-border" 
@@ -51,10 +51,10 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <div class="col-xl-2 col-12">
+                                    <div class="col-xl-1 col-12">
                                         <label for="">บทนำ</label>
                                     </div>
-                                    <div class="col-xl-8 col-12">
+                                    <div class="col-xl-11 col-12">
                                         <textarea 
                                             class="form-control form-textarea summernote" 
                                             name="introduction" 
@@ -64,10 +64,10 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <div class="col-xl-2 col-12">
+                                    <div class="col-xl-1 col-12">
                                         <label for="">รายละเอียด</label>
                                     </div>
-                                    <div class="col-xl-8 col-12">
+                                    <div class="col-xl-11 col-12">
                                         <textarea 
                                             class="form-control form-textarea summernote" 
                                             name="detail" 
@@ -77,10 +77,10 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <div class="col-xl-2 col-12">
+                                    <div class="col-xl-1 col-12">
                                         <label for="">วันที่เริ่มข่าว</label>
                                     </div>
-                                    <div class="col-xl-8 col-12">
+                                    <div class="col-xl-11 col-12">
                                         <div class="input-daterange input-group" id="datepicker">
                                             <input 
                                                 type="text" 
@@ -103,14 +103,16 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <div class="col-xl-2 col-12">
+                                    <div class="col-xl-1 col-12">
                                         <label for="">รูปข่าวสาร</label>
                                     </div>
-                                    <div class="col-xl-8 col-12">
+                                    <div class="col-xl-11 col-12">
                                         @include("inputs.fileupload_img",[
                                             "name" => "files",
                                             "required" => is_null($data->image ?? null) ,
-                                            "image" => $data->image ?? null
+                                            "image" => $data->image ?? null,
+                                            "width" => 700,
+                                            "height" => 350
                                         ])
                                     </div>
                                 </div>

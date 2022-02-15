@@ -19,7 +19,7 @@
             <div class="div-box card-outline card-info p-4">
                 <div class="col">
                     <div class="row justify-content-center">
-                        <div class="col-xl-10 col-12">
+                        <div class="col-xl-12 col-12">
                             @if ($errors->any())
                                 <div class="alert alert-danger">
                                     <ul>
@@ -38,10 +38,10 @@
                                 method="POST" id="frmSave" enctype="multipart/form-data" class="p-4">
                                 @csrf
                                 <div class="form-group row">                                
-                                    <div class="col-xl-3 col-12">
+                                    <div class="col-xl-2 col-12">
                                         <label for=""><h5>ชื่อกิจกรรม</h5></label>
                                     </div>
-                                    <div class="col-xl-7 col-12">
+                                    <div class="col-xl-10 col-12">
                                         <input 
                                             type="text" 
                                             class="form-control form-control-border" 
@@ -52,10 +52,10 @@
                                     </div>                            
                                 </div> 
                                 <div class="form-group row">                                
-                                    <div class="col-xl-3 col-12">
+                                    <div class="col-xl-2 col-12">
                                         <label for=""><h5>วัตถุประสงค์</h5></label>
                                     </div>
-                                    <div class="col-xl-7 col-12">
+                                    <div class="col-xl-10 col-12">
                                         <textarea 
                                             class="form-control form-textarea summernote" 
                                             name="objective" 
@@ -65,10 +65,10 @@
                                     </div>                            
                                 </div> 
                                 <div class="form-group row">                                
-                                    <div class="col-xl-3 col-12">
+                                    <div class="col-xl-2 col-12">
                                         <label for=""><h5>ลักษณะการดําเนินงาน</h5></label>
                                     </div>
-                                    <div class="col-xl-7 col-12">
+                                    <div class="col-xl-10 col-12">
                                         <textarea 
                                             class="form-control form-textarea summernote" 
                                             name="nature_of_operation" 
@@ -78,10 +78,10 @@
                                     </div>                            
                                 </div> 
                                 <div class="form-group row">                                
-                                    <div class="col-xl-3 col-12">
+                                    <div class="col-xl-2 col-12">
                                         <label for=""><h5>คุณสมบัติผู้เข้าร่วม</h5></label>
                                     </div>
-                                    <div class="col-xl-7 col-12">
+                                    <div class="col-xl-10 col-12">
                                         <textarea 
                                             class="form-control form-textarea summernote" 
                                             name="participant_properties" 
@@ -92,10 +92,10 @@
                                 </div> 
                                 
                                 <div class="form-group row">                                
-                                    <div class="col-xl-3 col-12">
+                                    <div class="col-xl-2 col-12">
                                         <label for=""><h5>สถานที่</h5></label>
                                     </div>
-                                    <div class="col-xl-7 col-12">
+                                    <div class="col-xl-10 col-12">
                                         <input 
                                             type="text" 
                                             class="form-control form-control-border" 
@@ -107,13 +107,13 @@
                                 </div> 
                                 
                                 <div class="form-group row">                                
-                                    <div class="col-xl-3 col-12">
+                                    <div class="col-xl-2 col-12">
                                         <label for=""><h5>กำหนดการ</h5></label>
                                         <button type="button" class="btn btn-info btn-flat btn-sm pt-2" id="btn-add-schedule">
                                             <i class="fas fa-plus"></i> สร้างวันจัดกิจกรรม
                                         </button>
                                     </div>
-                                    <div class="col-xl-7 col-12" id="schedules-panel">
+                                    <div class="col-xl-10 col-12" id="schedules-panel">
                                         @if (isset($data) && count($data->activity_schedules) > 0)
                                             @foreach ($data->activity_schedules as $i => $date)
                                                 <div class="row col-xl-12 col-12 schedule-box" id="schedule_date_{{ $i }}" data-index="{{ $i }}">
@@ -259,7 +259,7 @@
                                     <hr>
                                 </div>
                                 <div class="form-group row">                                
-                                    <div class="col-xl-3 col-12">
+                                    <div class="col-xl-2 col-12">
                                         <label for=""><h5>จำนวนผู้เข้าร่วมสูงสุด</h5></label>
                                     </div>
                                     <div class="col-xl-3 col-12">
@@ -284,7 +284,7 @@
                                     </div>                      
                                 </div> 
                                 <div class="form-group row">                                
-                                    <div class="col-xl-3 col-12">
+                                    <div class="col-xl-2 col-12">
                                         <label for=""><h5>ค่าใช้จ่าย</h5></label>
                                     </div>
                                     <div class="col-xl-3 col-12">
@@ -309,13 +309,13 @@
                                     </div>                  
                                 </div> 
                                 <div class="form-group row">                                
-                                    <div class="col-xl-3 col-12">
+                                    <div class="col-xl-2 col-12">
                                         <label for=""><h5>ผู้ดูแลรับผิดชอบ</h5></label>
                                         <button type="button" class="btn btn-info btn-flat btn-sm pt-2" id="btn-add-officer">
                                             <i class="fas fa-plus"></i>
                                         </button>
                                     </div>
-                                    <div class="col-xl-7 col-12" id="officers-panel">
+                                    <div class="col-xl-10 col-12" id="officers-panel">
                                         @php
                                             $officers = old("officers",$data->officers ?? [])
                                         @endphp
@@ -361,22 +361,24 @@
                                     <div class="col-xl-2 col-12">
                                         <label for="">รูปข่าวสาร</label>
                                     </div>
-                                    <div class="col-xl-8 col-12">
+                                    <div class="col-xl-10 col-12">
                                         @include("inputs.fileupload_img",[
                                             "name" => "files",
                                             "required" => is_null($data->image ?? null) ,
-                                            "image" => $data->image ?? null
+                                            "image" => $data->image ?? null,
+                                            "width" => 700,
+                                            "height" => 350,
                                         ])
                                     </div>
                                 </div> 
-                                <div class="col-10 p-0"> 
+                                <div class="col-12 p-0"> 
                                     <hr>
                                 </div>
                                 <div class="form-group row">
-                                    <div class="col-xl-5 col-12">
+                                    <div class="col-xl-6 col-12">
                                         <button type="submit" class="btn btn-success btn-block" data-loading-text="กรุณารอซักครู่...">บันทึก</button>
                                     </div> 
-                                    <div class="col-xl-5 col-12">
+                                    <div class="col-xl-6 col-12">
                                         <button type="button" class="btn btn-secondary btn-block" onclick="window.history.back()">ยกเลิก</button>
                                     </div>
                                 </div>   

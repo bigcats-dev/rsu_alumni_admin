@@ -150,12 +150,12 @@ $.validator.methods.number = function (value, element) {
 
 $.validator.addMethod('minheight', function (value, element, param) {
     if ($(element).attr('height')) {
-        return $(element).attr('height') >= param;
+        return $(element).attr('height') >= parseInt(param || '0');
     } return this.optional(element) || true;
 }, 'A altura deve ser exatamente {0}px');
 
 $.validator.addMethod('minwidth', function (value, element, param) {
     if ($(element).attr('width')) {
-        return $(element).attr('width') >= param;
+        return $(element).attr('width') >= parseInt(param || '0');
     } return this.optional(element) || true;
 }, 'A largura deve ser exatamente {0}px');

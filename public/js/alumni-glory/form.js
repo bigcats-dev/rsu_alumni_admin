@@ -53,7 +53,9 @@ var frmSave = $('form#frmSave'),
             ignore: ':hidden:not(.summernote),.note-editable.card-block',
             rules:{
                 images:{
-                    extension: 'jpg|png|jpeg|gif'
+                    extension: 'jpg|png|jpeg|gif',
+                    minwidth: $('input#customFileImg',frmSave).attr('width'),
+                    minheight: $('input#customFileImg',frmSave).attr('height'),
                 }
             },
             errorPlacement: function(error, element){

@@ -10,15 +10,14 @@
             height="{{$height ?? 9999}}"
             data-msg-minwidth="ขนาดความกว้างของภาพขั้นต่ำ {{$width ?? 0}} px"
             data-msg-minheight="ขนาดความสูงของภาพขั้นต่ำ {{$height ?? 0}} px"
-            data-msg-minheight=""
+            data-msg-required="กรุณาเลือกไฟล์"
+            data-msg-extension="กรุณาเลือกไฟล์ที่มีนามสกุล jpg,jepg และ png เท่านั้น"
             @if ($multiple ?? false)
                 multiple
             @endif
             @isset($required)
                 @if ($required)
                     required
-                    data-msg-required="กรุณาเลือกไฟล์"
-                    data-msg-extension="กรุณาเลือกไฟล์ที่มีนามสกุล jpg,jepg และ png เท่านั้น"
                 @endif
             @endisset>
         <label class="custom-file-label" for="customFile">Choose file...</label>

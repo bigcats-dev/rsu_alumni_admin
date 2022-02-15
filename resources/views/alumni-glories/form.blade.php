@@ -216,6 +216,8 @@
                                             "required" => is_null($data->image ?? null) ,
                                             "image" => $data->image ?? null,
                                             "multiple" => false,
+                                            "width" => 170,
+                                            "height" => 230
                                         ])
                                     </div>
                                 </div> 

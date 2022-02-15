@@ -57,9 +57,10 @@
                                     <div class="col-xl-8 col-12"> 
                                         <input 
                                             type="text" 
-                                            class="form-control form-control-border" 
+                                            class="form-control form-control-border"
+                                            data-msg-url="รูปแบบ URL ไม่ถูกต้อง"
                                             name="hyperlink"
-                                            placeholder="Hyperlink"
+                                            placeholder="http,https://example.com"
                                             value="{{old("hyperlink",$data->hyperlink ?? "")}}">
                                     </div>
                                 </div> 
@@ -133,7 +134,9 @@
                                         @include("inputs.fileupload_img",[
                                             "name" => "files",
                                             "required" => is_null($data->image ?? null) ,
-                                            "image" => $data->image ?? null
+                                            "image" => $data->image ?? null,
+                                            "width" => 341,
+                                            "height" => 180,
                                         ])
                                     </div>
                                 </div> 

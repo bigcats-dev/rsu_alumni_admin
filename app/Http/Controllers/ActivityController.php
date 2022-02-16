@@ -8,6 +8,12 @@ use Illuminate\Support\Facades\DB;
 use App\Helpers\Helper;
 use App\Http\Requests\ActivityRequest;
 use App\Models\ActivityImage;
+use App\Models\ActivityRoom;
+use App\Models\ActivityRoomSchedule;
+use App\Models\ActivitySchedule;
+use App\Models\Room;
+use App\Models\RoomGroup;
+use App\Models\RoomSubGroup;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -39,7 +45,7 @@ class ActivityController extends Controller
                 ,activity_images.file_name,activity_images.file_origin_name,activity_images.file_size,activity_images.file_path")
                 ->join("users as u_create", "activities.user_create_id", "=", "u_create.id")
                 ->leftjoin("users as u_update", "activities.user_update_id", "=", "u_update.id")
-                ->leftjoin("activity_images","activities.activity_id","=","activity_images.activity_id")
+                ->leftjoin("activity_images", "activities.activity_id", "=", "activity_images.activity_id")
                 ->where($whereCondition);
 
             if (Str::of(request()->input("search.value"))->trim()->isNotEmpty()) {
@@ -54,8 +60,7 @@ class ActivityController extends Controller
             if (request()->has("order.0.column")) {
                 $buildQuery->orderBy($columnSorts[request()->input("order.0.column")], request()->input("order.0.dir"));
             }
-
-
+            
             $datas = collect($buildQuery->get()->toArray())
                 ->transform(function ($i) {
                     $i["file"] = [
@@ -71,6 +76,7 @@ class ActivityController extends Controller
                     $i["action"]["showhomepage"] = route("event-news.show_homepage", ["activity" => $i["activity_id"]]);
                     $i["action"]["priority"] = route("event-news.priority", ["activity" => $i["activity_id"]]);
                     $i["action"]["restore"] = route("event-news.restore", ["activity" => $i["activity_id"]]);
+                    $i["action"]["book"] = route("event-news.book-room", ["activity" => $i["activity_id"]]);
                     return $i;
                 });
 
@@ -243,7 +249,7 @@ class ActivityController extends Controller
      */
     public function destroy(Activity $activity)
     {
-        $activity->update(["status" => 0 , "approved" => 0]);
+        $activity->update(["status" => 0, "approved" => 0]);
         return redirect()->back()->with("success", "บันทึกข้อมูลข่าวสารกิจกรรมเรียบร้อย");
     }
 
@@ -306,7 +312,60 @@ class ActivityController extends Controller
      */
     public function restore(Activity $activity)
     {
-        $activity->update(["status" => 1 , "approved" => 0]);
+        $activity->update(["status" => 1, "approved" => 0]);
         return redirect()->back()->with("success", "บันทึกข้อมูลข่าวสารกิจกรรมเรียบร้อย");
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function book(Activity $activity)
+    {
+        $params = [];
+        $params["ms_room_group"] = RoomGroup::selectRaw("convert(ROOM_GROUP_UID,'utf8','us7ascii') AS ROOM_GROUP_ID,ROOM_GROUP_NAME_TH")->get();
+        if ($activity->activity_room) {
+            if ($activity->activity_room->type == "1") {
+                $params["ms_room_subgroup"] = RoomSubGroup::selectRaw("convert(ROOM_SUB_GROUP_UID,'utf8','us7ascii') AS ROOM_SUB_GROUP_ID,ROOM_SUB_GROUP_NAME_TH")->get();
+                $params["ms_room"] = Room::selectRaw("convert(ROOM_UID,'utf8','us7ascii') AS ROOM_ID,ROOM_NO,ROOM_NAME_TH,TOTAL_SEAT,EXAM_SEAT,AREA")->get();
+            }
+        }
+        $params["activity"] = $activity;
+        return view("activitys.book-room",$params);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Activity  $activity
+     * @return \Illuminate\Http\Response
+     */
+    public function booking(Request $request, Activity $activity)
+    {
+        try {
+            DB::transaction(function() use ($request,$activity){
+                ActivityRoom::updateOrCreate(["activity_id" => $activity->activity_id],$request->except(["room"]));
+                if ($request->input("type") == "1") {
+                    if (sizeof($request->input("room")) > 0) {
+                        foreach ($request->input("room") as $room) {
+                            if (isset($room["del"])) {
+                                $activity->activity_room_schedule()->where("activity_room_schedules_id",$room["del"])->delete();
+                            } else{
+                                if (isset($room["id"])) {
+                                    ActivityRoomSchedule::find($room["id"])->update($room);
+                                } else {
+                                    $activity->activity_room_schedule()->create($room);
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            return redirect()->route("event-news.index")->with("success", "บันทึกข้อมูลสถานที่จัดกิจกรรมเรียบร้อย");
+        }catch (\Exception $e) {
+            return redirect()->back()->withInput()->withErrors(["msg" => $e->getMessage()]); 
+        }
     }
 }

@@ -1,5 +1,5 @@
 <div class="img-update-template" id="img-update-template">
-    <span class="text-danger">เฉพาะไฟล์ที่มีนามสกุล jpg,jepg และ png (กว้าง {{$width ?? 9999}} px , สูง {{$height ?? 9999}} px)</span>
+    <span class="text-danger">เฉพาะไฟล์ที่มีนามสกุล jpg,jepg และ png (ความกว้างของภาพขั้นต่ำ {{$width ?? 9999}} px , ความสูงของภาพขั้นต่ำ {{$height ?? 9999}} px)</span>
     <div class="custom-file mb-1">
         <input 
             type="file" 

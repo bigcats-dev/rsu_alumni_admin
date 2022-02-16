@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\DB;
 use App\Helpers\Helper;
 use App\Models\CareerNewsFile;
 use Illuminate\Support\Str;
+use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Storage;
 
 class CareerNewsController extends Controller
 {
@@ -133,6 +135,14 @@ class CareerNewsController extends Controller
                                 "file_size" => $file->getSize(),
                                 "file_path" => $path,
                             ]));
+
+                            // create thumbnails
+                            $imageResize = Image::make(Storage::path($path))
+                                ->resize(340, 180, function ($constraint) {
+                                    $constraint->aspectRatio();
+                                })
+                                ->encode($extension);
+                            Storage::put($directory . "/thumbnails/" . $filename, $imageResize);
                         }
                     }
                 }
@@ -151,7 +161,7 @@ class CareerNewsController extends Controller
      */
     public function show(CareerNews $news)
     {
-        return view("career-news.form",["data" => $news]);
+        return view("career-news.form", ["data" => $news]);
     }
 
     /**
@@ -162,7 +172,7 @@ class CareerNewsController extends Controller
      */
     public function edit(CareerNews $news)
     {
-        return view("career-news.form",["data" => $news]);
+        return view("career-news.form", ["data" => $news]);
     }
 
     /**
@@ -176,7 +186,7 @@ class CareerNewsController extends Controller
     {
         $request->validated();
         try {
-            DB::transaction(function () use ($request,$news) {
+            DB::transaction(function () use ($request, $news) {
                 $upload = false;
                 if ($request->hasFile("files")) {
                     if (!in_array($request->file("files")->getClientOriginalExtension(), ["png", "jpg", "jpeg"])) {
@@ -203,6 +213,14 @@ class CareerNewsController extends Controller
                                 "file_path" => $path,
                             ]
                         );
+
+                        // create thumbnails
+                        $imageResize = Image::make(Storage::path($path))
+                            ->resize(340, 180, function ($constraint) {
+                                $constraint->aspectRatio();
+                            })
+                            ->encode($extension);
+                        Storage::put($directory . "/thumbnails/" . $filename, $imageResize);
                     }
                 }
             });

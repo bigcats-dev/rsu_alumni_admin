@@ -261,7 +261,10 @@
                                             <div class="col">
                                                 <a href="${row.action?.view}" class="btn btn-secondary btn-block btn-sm btn-flat">
                                                     <i class="fas fa-eye"></i> ดูรายละเอียด
-                                                </a>  
+                                                </a>
+                                                <a href="${row.action?.book}" class="btn btn-info btn-block btn-sm btn-flat">
+                                                    <i class="fas fa-building"></i> สถานที่จัดกิจกรรม
+                                                </a>
                                                 <select class="form-control form-control-sm" id="sl-priority_${row.activity_id}">
                                                     @for ($i = 1;$i <= $records;$i++)
                                                         <option value="{{$i}}" ${row.priority == '{{$i}}' ? 'selected' : ''}>{{$i}}</option>

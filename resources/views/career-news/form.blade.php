@@ -40,7 +40,7 @@
                                     <div class="col-xl-2 col-12">
                                         <label for="">หัวข้อข่าว</label>
                                     </div>
-                                    <div class="col-xl-8 col-12">
+                                    <div class="col-xl-10 col-12">
                                         <input 
                                             type="text" 
                                             class="form-control form-control-border" 
@@ -54,7 +54,7 @@
                                     <div class="col-xl-2 col-12">
                                         <label for="">บทนำ</label>
                                     </div>
-                                    <div class="col-xl-8 col-12">
+                                    <div class="col-xl-10 col-12">
                                         <textarea 
                                             class="form-control form-textarea summernote" 
                                             name="introduction" 
@@ -67,7 +67,7 @@
                                     <div class="col-xl-2 col-12">
                                         <label for="">รายละเอียด</label>
                                     </div>
-                                    <div class="col-xl-8 col-12">
+                                    <div class="col-xl-10 col-12">
                                         <textarea 
                                             class="form-control form-textarea summernote" 
                                             name="detail" 
@@ -80,7 +80,7 @@
                                     <div class="col-xl-2 col-12">
                                         <label for="">วันที่เริ่มข่าว</label>
                                     </div>
-                                    <div class="col-xl-8 col-12">
+                                    <div class="col-xl-10 col-12">
                                         <div class="input-daterange input-group" id="datepicker">
                                             <input 
                                                 type="text" 
@@ -106,7 +106,7 @@
                                     <div class="col-xl-2 col-12">
                                         <label for="">สถานที่</label>
                                     </div>
-                                    <div class="col-xl-8 col-12">
+                                    <div class="col-xl-10 col-12">
                                         <input 
                                             type="text" 
                                             class="form-control form-control-border" 
@@ -120,7 +120,7 @@
                                     <div class="col-xl-2 col-12">
                                         <label for="">Link</label>
                                     </div>
-                                    <div class="col-xl-8 col-12">
+                                    <div class="col-xl-10 col-12">
                                         <input 
                                             type="text" 
                                             class="form-control form-control-border"
@@ -136,11 +136,13 @@
                                     <div class="col-xl-2 col-12">
                                         <label for="">รูปโปสเตอร์</label>
                                     </div>
-                                    <div class="col-xl-8 col-12">
+                                    <div class="col-xl-10 col-12">
                                         @include("inputs.fileupload_img",[
                                             "name" => "files",
                                             "required" => is_null($data->image ?? null) ,
-                                            "image" => $data->image ?? null
+                                            "image" => $data->image ?? null,
+                                            "width" => 1090,
+                                            "height" => 450,
                                         ])
                                     </div>
                                 </div>

@@ -111,8 +111,8 @@
                                             "name" => "files",
                                             "required" => is_null($data->image ?? null) ,
                                             "image" => $data->image ?? null,
-                                            "width" => 700,
-                                            "height" => 350
+                                            "width" => 1090,
+                                            "height" => 450
                                         ])
                                     </div>
                                 </div>

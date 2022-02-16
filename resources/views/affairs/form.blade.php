@@ -40,7 +40,7 @@
                                     <div class="col-xl-2 col-12">
                                         <label for="">ชื่อกิจการ</label>
                                     </div> 
-                                    <div class="col-xl-8 col-12"> 
+                                    <div class="col-xl-10 col-12"> 
                                         <input 
                                             type="text" 
                                             class="form-control form-control-border" 
@@ -54,7 +54,7 @@
                                     <div class="col-xl-2 col-12">
                                         <label for="">Hyperlink </label>
                                     </div> 
-                                    <div class="col-xl-8 col-12"> 
+                                    <div class="col-xl-10 col-12"> 
                                         <input 
                                             type="text" 
                                             class="form-control form-control-border"
@@ -68,7 +68,7 @@
                                     <div class="col-xl-2 col-12">
                                         <label for="">ประเภท Hyperlink</label>
                                     </div> 
-                                    <div class="col-xl-8 col-12"> 
+                                    <div class="col-xl-10 col-12"> 
                                         <div class="form-check-inline">
                                             <label class="form-check-label">
                                                 <input 
@@ -117,7 +117,7 @@
                                     <div class="col-xl-2 col-12">
                                         <label for="">รายละเอียด</label>
                                     </div> 
-                                    <div class="col-xl-8 col-12"> 
+                                    <div class="col-xl-10 col-12"> 
                                         <textarea 
                                             class="form-control form-textarea summernote" 
                                             name="detail" 
@@ -130,25 +130,25 @@
                                     <div class="col-xl-2 col-12">
                                         <label for="">รูปกิจการ</label>
                                     </div>
-                                    <div class="col-xl-8 col-12">
+                                    <div class="col-xl-10 col-12">
                                         @include("inputs.fileupload_img",[
                                             "name" => "files",
                                             "required" => is_null($data->image ?? null) ,
                                             "image" => $data->image ?? null,
-                                            "width" => 341,
-                                            "height" => 180,
+                                            "width" => 1090,
+                                            "height" => 450,
                                         ])
                                     </div>
                                 </div> 
 
-                                <div class="col-10 p-0"> 
+                                <div class="col-12 p-0"> 
                                     <hr>
                                 </div>
                                 <div class="form-group row">
-                                    <div class="col-xl-5 col-12">
+                                    <div class="col-xl-6 col-12">
                                         <button type="submit" class="btn btn-success btn-block" data-loading-text="กรุณารอซักครู่...">บันทึก</button>
                                     </div> 
-                                    <div class="col-xl-5 col-12">
+                                    <div class="col-xl-6 col-12">
                                         <button type="button" class="btn btn-secondary btn-block" onclick="window.history.back()">กลับ</button>
                                     </div>
                                 </div>  

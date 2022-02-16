@@ -10,6 +10,7 @@
     {{-- main css --}}
     <link href="{{ URL::asset('css/adminlte.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ URL::asset('css/main.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ URL::asset('css/custom.css') }}" rel="stylesheet" type="text/css" />
     {{-- bootstrap select --}}
     <link rel="stylesheet" href="{{ URL::asset('plugins/bootstrap-select/bootstrap-select.min.css') }}">
     {{-- sweetalert --}}

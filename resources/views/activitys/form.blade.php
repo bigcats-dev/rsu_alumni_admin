@@ -19,7 +19,7 @@
             <div class="div-box card-outline card-info p-4">
                 <div class="col">
                     <div class="row justify-content-center">
-                        <div class="col-xl-12 col-12">
+                        <div class="col-xl-10 col-12">
                             @if ($errors->any())
                                 <div class="alert alert-danger">
                                     <ul>
@@ -366,8 +366,8 @@
                                             "name" => "files",
                                             "required" => is_null($data->image ?? null) ,
                                             "image" => $data->image ?? null,
-                                            "width" => 700,
-                                            "height" => 350,
+                                            "width" => 1090,
+                                            "height" => 450,
                                         ])
                                     </div>
                                 </div> 

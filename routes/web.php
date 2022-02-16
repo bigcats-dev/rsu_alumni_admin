@@ -9,6 +9,7 @@ use App\Http\Controllers\CareerNewsController;
 use App\Http\Controllers\ConfigurationController;
 use App\Http\Controllers\PressReleaseController;
 use App\Http\Controllers\RecruitmentController;
+use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\SocialAccountController;
 use App\Http\Controllers\SpiritCoinActivityController;
 use App\Http\Controllers\SpiritCoinController;
@@ -57,6 +58,7 @@ Route::middleware(["auth:token"])
                 Route::get('create', [ActivityController::class, "create"])->name("create");
                 Route::get("{activity}/view", [ActivityController::class, "show"])->name("view");
                 Route::get("{activity}/edit", [ActivityController::class, "edit"])->name("edit");
+                Route::get("{activity}/book-room", [ActivityController::class, "book"])->name("book-room");
                 Route::post("/", [ActivityController::class, "store"])->name("store");
                 Route::post("{activity}/update", [ActivityController::class, "update"])->name("update");
                 Route::post("{activity}/delete", [ActivityController::class, "destroy"])->name("destroy");
@@ -64,6 +66,7 @@ Route::middleware(["auth:token"])
                 Route::post("{activity}/priority", [ActivityController::class, "priority"])->name("priority");
                 Route::post("{activity}/approve", [ActivityController::class, "approve"])->name("approve");
                 Route::post("{activity}/restore", [ActivityController::class, "restore"])->name("restore");
+                Route::post("{activity}/book-room", [ActivityController::class, "booking"])->name("book-store");
             });
 
         Route::prefix("recruitment")
@@ -234,5 +237,17 @@ Route::middleware(["auth:token"])
             ->group(function () {
                 Route::get("/", [ConfigurationController::class, "contact"])->name("index");
                 Route::post("/", [ConfigurationController::class, "store"])->name("store");
+            });
+
+        Route::prefix("service")
+            ->name("service.")
+            ->group(function () {
+                // room
+                // group
+                Route::get("room-group", [ServiceController::class, "roomgroup"])->name("room.group");
+                // sub group required group id
+                Route::get("room-sub-group", [ServiceController::class, "roomsubgroup"])->name("room.subgroup");
+                // room required sub group id
+                Route::get("room", [ServiceController::class, "room"])->name("room");
             });
     });

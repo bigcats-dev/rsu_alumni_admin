@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Helpers\Helper;
 
 class Activity extends Model
 {
@@ -57,6 +58,12 @@ class Activity extends Model
         'home_page' => 1,
         'priority' => 1,
     ];
+    /**
+     * The other attribute
+     * 
+     * @var array
+     */
+    protected $appends = ["first_training_date","last_training_date"];
 
     public function setOfficersAttribute($value)
     {
@@ -78,5 +85,25 @@ class Activity extends Model
     public function image()
     {
         return $this->hasOne(ActivityImage::class,'activity_id','activity_id');
+    }
+
+    public function activity_room()
+    {
+        return $this->hasOne(ActivityRoom::class, "activity_id", "activity_id");
+    }
+
+    public function activity_room_schedule()
+    {
+        return $this->hasMany(ActivityRoomSchedule::class,"activity_id","activity_id");
+    }
+
+    public function getFirstTrainingDateAttribute()
+    {
+        return $this->activity_schedules()->min("schedule_date");
+    }
+
+    public function getLastTrainingDateAttribute()
+    {
+        return $this->activity_schedules()->max("schedule_date");
     }
 }

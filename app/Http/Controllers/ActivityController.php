@@ -20,7 +20,11 @@ use Illuminate\Support\Str;
 class ActivityController extends Controller
 {
     public function __construct() {
-        $this->middleware(["can:view-event-news"]);
+        $this->middleware("can:view-event-news");
+        $this->middleware("can:create-event-news")->only(["create","store"]);
+        $this->middleware("can:update-event-news")->only("update");
+        $this->middleware("can:del-event-news")->only("destroy");
+        $this->middleware("can:approve-event-news")->only("approve");
     }
     /**
      * Display a listing of the resource.

@@ -14,6 +14,10 @@ class RecruitmentController extends Controller
 {
     public function __construct() {
         $this->middleware("can:view-recruitment");
+        $this->middleware("can:create-recruitment")->only(["create","store"]);
+        $this->middleware("can:update-recruitment")->only("update");
+        $this->middleware("can:del-recruitment")->only("destroy");
+        $this->middleware("can:approve-recruitment")->only("approve");
     }
     /**
      * Display a listing of the resource.

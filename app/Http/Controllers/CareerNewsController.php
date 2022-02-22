@@ -16,6 +16,10 @@ class CareerNewsController extends Controller
 {
     public function __construct() {
         $this->middleware("can:view-career-news");
+        $this->middleware("can:create-career-news")->only(["create","store"]);
+        $this->middleware("can:update-career-news")->only("update");
+        $this->middleware("can:del-career-news")->only("destroy");
+        $this->middleware("can:approve-career-news")->only("approve");
     }
     /**
      * Display a listing of the resource.

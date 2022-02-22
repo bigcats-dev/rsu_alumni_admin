@@ -16,6 +16,10 @@ class AlbumController extends Controller
 {
     public function __construct() {
         $this->middleware("can:view-album");
+        $this->middleware("can:create-album")->only(["create","store"]);
+        $this->middleware("can:update-album")->only("update");
+        $this->middleware("can:del-album")->only("destroy");
+        $this->middleware("can:approve-album")->only("approve");
     }
 
     /**

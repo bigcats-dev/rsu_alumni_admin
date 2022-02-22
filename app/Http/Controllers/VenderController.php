@@ -20,6 +20,10 @@ class VenderController extends Controller
 {
     public function __construct() {
         $this->middleware("can:view-vender");
+        $this->middleware("can:create-vender")->only(["create","store"]);
+        $this->middleware("can:update-vender")->only("update");
+        $this->middleware("can:del-vender")->only("destroy");
+        $this->middleware("can:approve-vender")->only("approve");
     }
     /**
      * Display a listing of the resource.

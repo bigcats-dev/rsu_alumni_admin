@@ -222,11 +222,21 @@
                                         <hr>
                                     </div>
                                     <div class="form-group row">
+                                        @if (Request::route()->getName() == "vender.create")
+                                            @can("create-vender")
+                                                <div class="col-xl-6 col-12">
+                                                    <button type="submit" class="btn btn-success btn-block" data-loading-text="กรุณารอซักครู่...">บันทึก</button>
+                                                </div>
+                                            @endcan
+                                        @else
+                                            @can("update-vender")
+                                                <div class="col-xl-6 col-12">
+                                                    <button type="submit" class="btn btn-success btn-block" data-loading-text="กรุณารอซักครู่...">บันทึก</button>
+                                                </div>
+                                            @endcan
+                                        @endif
                                         <div class="col-xl-6 col-12">
-                                            <button type="submit" class="btn btn-success btn-block" data-loading-text="กรุณารอซักครู่...">บันทึก</button>
-                                        </div> 
-                                        <div class="col-xl-6 col-12">
-                                            <button type="button" class="btn btn-secondary btn-block" onclick="window.history.back()">กลับ</button>
+                                            <button type="button" class="btn btn-secondary btn-block back" onclick="window.history.back()">กลับ</button>
                                         </div>
                                     </div>
                                 </form>
@@ -276,4 +286,17 @@
     <script src="{{ URL::asset("js/vender/form.js?t=".time()) }}"></script>
     {{-- input fileupload --}}
     <script src="{{ URL::asset("js/inputs/fileupload_pdf.js?t=".time()) }}"></script>
+
+    @if (Request::route()->getName() == "vender.view")
+        @cannot("update-vender")
+            <script>
+                $(function(){
+                    $('form').find('input,select,textarea,button[type="button"]:not(.back)').prop('disabled',true)
+                    $('form').find('textarea.summernote').each(function(){
+                        $(this).summernote("disable")
+                    })
+                })
+            </script>
+        @endcannot
+    @endif
 @endsection

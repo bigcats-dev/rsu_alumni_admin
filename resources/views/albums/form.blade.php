@@ -105,9 +105,19 @@
                                     <hr>
                                 </div>
                                 <div class="form-group row">
-                                    <div class="col-xl-5 col-12">
-                                        <button type="submit" class="btn btn-success btn-block" data-loading-text="กรุณารอซักครู่...">บันทึก</button>
-                                    </div>
+                                    @if (Request::route()->getName() == "album.create")
+                                        @can("create-album")
+                                            <div class="col-xl-5 col-12">
+                                                <button type="submit" class="btn btn-success btn-block" data-loading-text="กรุณารอซักครู่...">บันทึก</button>
+                                            </div>
+                                        @endcan
+                                    @else
+                                        @can("update-album")
+                                            <div class="col-xl-5 col-12">
+                                                <button type="submit" class="btn btn-success btn-block" data-loading-text="กรุณารอซักครู่...">บันทึก</button>
+                                            </div>
+                                        @endcan
+                                    @endif
                                     <div class="col-xl-5 col-12">
                                         <button type="button" class="btn btn-secondary btn-block" onclick="window.history.back()">กลับ</button>
                                     </div>
@@ -258,4 +268,16 @@
         data-upload-url="{{route("album.gallery.upload",["album" => $data->album_id ?? 0])}}" 
         src="{{ URL::asset("js/album/upload.js?t=".time()) }}"></script>
 
+        @if (Request::route()->getName() == "album.view")
+            @cannot("update-album")
+                <script>
+                    $(function(){
+                        $('form').find('input,select,textarea').prop('disabled',true)
+                        $('form').find('textarea.summernote').each(function(){
+                            $(this).summernote("disable")
+                        })
+                    })
+                </script>
+            @endcannot
+        @endif
 @endsection

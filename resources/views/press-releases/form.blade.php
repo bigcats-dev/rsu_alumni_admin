@@ -41,7 +41,7 @@
                                         <label for="">หัวข้อข่าว</label>
                                     </div>
                                     <div class="col-xl-11 col-12">
-                                        <input 
+                                        <input
                                             type="text" 
                                             class="form-control form-control-border" 
                                             name="title"
@@ -55,7 +55,12 @@
                                         <label for="">บทนำ</label>
                                     </div>
                                     <div class="col-xl-11 col-12">
-                                        <textarea 
+                                        <textarea
+                                            @if (Request::route()->getName() == "press-release.view")
+                                                @cannot("update-press-release")
+                                                    disabled
+                                                @endcannot
+                                            @endif
                                             class="form-control form-textarea summernote" 
                                             name="introduction" 
                                             cols="30"
@@ -121,9 +126,19 @@
                                 </div>
 
                                 <div class="form-group row">
-                                    <div class="col-xl-6 col-12">
-                                        <button type="submit" class="btn btn-success btn-block" data-loading-text="กรุณารอซักครู่...">บันทึก</button>
-                                    </div>
+                                    @if (Request::route()->getName() == "press-release.create")
+                                        @can("create-press-release")
+                                            <div class="col-xl-6 col-12">
+                                                <button type="submit" class="btn btn-success btn-block" data-loading-text="กรุณารอซักครู่...">บันทึก</button>
+                                            </div>
+                                        @endcan
+                                    @else
+                                        @can("update-press-release")
+                                            <div class="col-xl-6 col-12">
+                                                <button type="submit" class="btn btn-success btn-block" data-loading-text="กรุณารอซักครู่...">บันทึก</button>
+                                            </div>
+                                        @endcan
+                                    @endif
                                     <div class="col-xl-6 col-12">
                                         <button type="button" class="btn btn-secondary btn-block" onclick="window.history.back()">กลับ</button>
                                     </div>
@@ -140,4 +155,17 @@
     <script src="{{ URL::asset("js/press-release/form.js?t=".time()) }}"></script>
     {{-- input fileupload --}}
     <script src="{{ URL::asset("js/inputs/fileupload_img.js?t=".time()) }}"></script>
+
+    @if (Request::route()->getName() == "press-release.view")
+        @cannot("update-press-release")
+            <script>
+                $(function(){
+                    $('form').find('input,select,textarea').prop('disabled',true)
+                    $('form').find('textarea.summernote').each(function(){
+                        $(this).summernote("disable")
+                    })
+                })
+            </script>
+        @endcannot
+    @endif
 @endsection

@@ -18,6 +18,10 @@ class YearBookController extends Controller
 {
     public function __construct() {
         $this->middleware("can:view-year-book");
+        $this->middleware("can:create-year-book")->only(["create","store"]);
+        $this->middleware("can:update-year-book")->only("update");
+        $this->middleware("can:del-year-book")->only("destroy");
+        $this->middleware("can:approve-year-book")->only("approve");
     }
     /**
      * Display a listing of the resource.

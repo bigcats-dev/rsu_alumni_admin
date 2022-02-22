@@ -13,7 +13,11 @@ use Illuminate\Support\Str;
 class PressReleaseController extends Controller
 {
     public function __construct() {
-        $this->middleware(["can:view-press-release"]);
+        $this->middleware("can:view-press-release");
+        $this->middleware("can:create-press-release")->only(["create","store"]);
+        $this->middleware("can:update-press-release")->only("update");
+        $this->middleware("can:del-press-release")->only("destroy");
+        $this->middleware("can:approve-press-release")->only("approve");
     }
     /**
      * Display a listing of the resource.

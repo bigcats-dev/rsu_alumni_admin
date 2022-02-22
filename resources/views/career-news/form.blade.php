@@ -146,15 +146,25 @@
                                         ])
                                     </div>
                                 </div>
-                                <div class="col-10 p-0">
+                                <div class="col-12 p-0">
                                     <hr>
                                 </div>
 
                                 <div class="form-group row">
-                                    <div class="col-xl-5 col-12">
-                                        <button type="submit" class="btn btn-success btn-block" data-loading-text="กรุณารอซักครู่...">บันทึก</button>
-                                    </div>
-                                    <div class="col-xl-5 col-12">
+                                    @if (Request::route()->getName() == "career-news.create")
+                                        @can("create-career-news")
+                                            <div class="col-xl-6 col-12">
+                                                <button type="submit" class="btn btn-success btn-block" data-loading-text="กรุณารอซักครู่...">บันทึก</button>
+                                            </div>
+                                        @endcan
+                                    @else
+                                        @can("update-career-news")
+                                            <div class="col-xl-6 col-12">
+                                                <button type="submit" class="btn btn-success btn-block" data-loading-text="กรุณารอซักครู่...">บันทึก</button>
+                                            </div>
+                                        @endcan
+                                    @endif
+                                    <div class="col-xl-6 col-12">
                                         <button type="button" class="btn btn-secondary btn-block" onclick="window.history.back()">กลับ</button>
                                     </div>
                                 </div>
@@ -170,4 +180,17 @@
     <script src="{{ URL::asset("js/career-news/form.js?t=".time()) }}"></script>
     {{-- input fileupload --}}
     <script src="{{ URL::asset("js/inputs/fileupload_img.js?t=".time()) }}"></script>
+
+    @if (Request::route()->getName() == "career-news.view")
+        @cannot("update-career-news")
+            <script>
+                $(function(){
+                    $('form').find('input,select,textarea').prop('disabled',true)
+                    $('form').find('textarea.summernote').each(function(){
+                        $(this).summernote("disable")
+                    })
+                })
+            </script>
+        @endcannot
+    @endif
 @endsection

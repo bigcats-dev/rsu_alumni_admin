@@ -14,6 +14,10 @@ class SpiritCoinController extends Controller
 {
     public function __construct() {
         $this->middleware("can:view-spirit-coin");
+        $this->middleware("can:create-spirit-coin")->only(["create","store"]);
+        $this->middleware("can:update-spirit-coin")->only("update");
+        $this->middleware("can:del-spirit-coin")->only("destroy");
+        $this->middleware("can:approve-spirit-coin")->only("approve");
     }
     /**
      * Display a listing of the resource.

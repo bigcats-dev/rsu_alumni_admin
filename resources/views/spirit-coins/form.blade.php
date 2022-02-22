@@ -79,9 +79,19 @@
                                     <hr>
                                 </div>
                                 <div class="form-group row">
-                                    <div class="col-xl-5 col-12">
-                                        <button type="submit" class="btn btn-success btn-block" data-loading-text="กรุณารอซักครู่...">บันทึก</button>
-                                    </div> 
+                                    @if (Request::route()->getName() == "spirit-coin.create")
+                                        @can("create-spirit-coin")
+                                            <div class="col-xl-5 col-12">
+                                                <button type="submit" class="btn btn-success btn-block" data-loading-text="กรุณารอซักครู่...">บันทึก</button>
+                                            </div>
+                                        @endcan
+                                    @else
+                                        @can("update-spirit-coin")
+                                            <div class="col-xl-5 col-12">
+                                                <button type="submit" class="btn btn-success btn-block" data-loading-text="กรุณารอซักครู่...">บันทึก</button>
+                                            </div>
+                                        @endcan
+                                    @endif
                                     <div class="col-xl-5 col-12">
                                         <button type="button" class="btn btn-secondary btn-block" onclick="window.history.back()">กลับ</button>
                                     </div>
@@ -98,4 +108,16 @@
     <script src="{{ URL::asset("js/spirit-coin/form.js?t=".time()) }}"></script>
     {{-- input fileupload --}}
     <script src="{{ URL::asset("js/inputs/fileupload_img.js?t=".time()) }}"></script>
+    @if (Request::route()->getName() == "spirit-coin.view")
+        @cannot("update-spirit-coin")
+            <script>
+                $(function(){
+                    $('form').find('input,select,textarea').prop('disabled',true)
+                    $('form').find('textarea.summernote').each(function(){
+                        $(this).summernote("disable")
+                    })
+                })
+            </script>
+        @endcannot
+    @endif
 @endsection

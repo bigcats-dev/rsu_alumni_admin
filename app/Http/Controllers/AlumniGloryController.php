@@ -18,6 +18,10 @@ class AlumniGloryController extends Controller
 {
     public function __construct() {
         $this->middleware("can:view-alumni-glory");
+        $this->middleware("can:create-alumni-glory")->only(["create","store"]);
+        $this->middleware("can:update-alumni-glory")->only("update");
+        $this->middleware("can:del-alumni-glory")->only("destroy");
+        $this->middleware("can:approve-alumni-glory")->only("approve");
     }
     /**
      * Display a listing of the resource.

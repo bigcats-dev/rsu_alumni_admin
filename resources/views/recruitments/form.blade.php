@@ -298,9 +298,19 @@
                                     <hr>
                                 </div>
                                 <div class="form-group row">
-                                    <div class="col-xl-6 col-12">
-                                        <button type="submit" class="btn btn-success btn-block" data-loading-text="กรุณารอซักครู่...">บันทึก</button>
-                                    </div> 
+                                    @if (Request::route()->getName() == "recruitment.create")
+                                        @can("create-recruitment")
+                                            <div class="col-xl-6 col-12">
+                                                <button type="submit" class="btn btn-success btn-block" data-loading-text="กรุณารอซักครู่...">บันทึก</button>
+                                            </div>
+                                        @endcan
+                                    @else
+                                        @can("update-recruitment")
+                                            <div class="col-xl-6 col-12">
+                                                <button type="submit" class="btn btn-success btn-block" data-loading-text="กรุณารอซักครู่...">บันทึก</button>
+                                            </div>
+                                        @endcan
+                                    @endif
                                     <div class="col-xl-6 col-12">
                                         <button type="button" class="btn btn-secondary btn-block" onclick="window.history.back()">กลับ</button>
                                     </div>
@@ -317,4 +327,16 @@
     <script src="{{ URL::asset("js/recruitment/form.js?t=".time()) }}"></script>
     {{-- input fileupload --}}
     <script src="{{ URL::asset("js/inputs/fileupload_img.js?t=".time()) }}"></script>
+    @if (Request::route()->getName() == "recruitment.view")
+        @cannot("update-recruitment")
+            <script>
+                $(function(){
+                    $('form').find('input,select,textarea').prop('disabled',true)
+                    $('form').find('textarea.summernote').each(function(){
+                        $(this).summernote("disable")
+                    })
+                })
+            </script>
+        @endcannot
+    @endif
 @endsection

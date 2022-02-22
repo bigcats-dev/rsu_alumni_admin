@@ -16,6 +16,10 @@ class AlumniAffairsController extends Controller
 {
     public function __construct() {
         $this->middleware("can:view-alumni-affairs");
+        $this->middleware("can:create-alumni-affairs")->only(["create","store"]);
+        $this->middleware("can:update-alumni-affairs")->only("update");
+        $this->middleware("can:del-alumni-affairs")->only("destroy");
+        $this->middleware("can:approve-alumni-affairs")->only("approve");
     }
     /**
      * Display a listing of the resource.

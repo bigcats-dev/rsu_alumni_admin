@@ -6,9 +6,11 @@
                 <div class="col-sm-6">
                     <h1 class="m-0">
                         <strong>จัดการข้อมูลแกลเลอรี่</strong>
-                        <a href="{{route("album.create")}}" class="btn  btn-success"><i class="far fa-plus"></i>
-                            สร้างอัลบั้มแกลเลอรี่
-                        </a>
+                        @can("create-album")
+                            <a href="{{route("album.create")}}" class="btn  btn-success"><i class="far fa-plus"></i>
+                                สร้างอัลบั้มแกลเลอรี่
+                            </a>
+                        @endcan
                     </h1>
                 </div>
             </div>
@@ -149,16 +151,18 @@
                             switch (value) {
                                 case '0':
                                     return(`
-                                        <form id="frmApprove_${row.album_id}" method="POST" action="${row.action.approve}" class="mb-2">
-                                            @csrf
-                                            <input type="hidden" name="action" value="1" />
-                                            <button type="button" class="btn btn-success btn-block btn-sm btn-flat">
-                                                <i class="far fa-check"></i> อนุมัติ
+                                        @can("approve-album")
+                                            <form id="frmApprove_${row.album_id}" method="POST" action="${row.action.approve}" class="mb-2">
+                                                @csrf
+                                                <input type="hidden" name="action" value="1" />
+                                                <button type="button" class="btn btn-success btn-block btn-sm btn-flat">
+                                                    <i class="far fa-check"></i> อนุมัติ
+                                                </button>
+                                            </form>
+                                            <button type="button" class="btn btn-danger btn-block btn-sm btn-flat" data-id="${row.album_id}" data-toggle="modal" data-target="#modalDisApprove">
+                                                <i class="fas fa-times"></i> ไม่อนุมัติ
                                             </button>
-                                        </form>
-                                        <button type="button" class="btn btn-danger btn-block btn-sm btn-flat" data-id="${row.album_id}" data-toggle="modal" data-target="#modalDisApprove">
-                                            <i class="fas fa-times"></i> ไม่อนุมัติ
-                                        </button>  
+                                        @endcan
                                         <a href="${row.action?.view}" class="btn btn-secondary btn-block btn-sm btn-flat">
                                             <i class="fas fa-eye"></i> ดูรายละเอียด
                                         </a>
@@ -169,13 +173,15 @@
                                             <div class="col">
                                                 <a href="${row.action?.view}" class="btn btn-secondary btn-block btn-sm btn-flat mb-1">
                                                     <i class="fas fa-eye"></i> ดูรายละเอียด
-                                                </a>  
-                                                <form id="frmDestroy_${row.album_id}" method="POST" action="${row.action.delete}">
-                                                    @csrf
-                                                    <button type="button" class="btn btn-danger btn-block btn-sm btn-flat">
-                                                        <i class="fas fa-times"></i> ลบ
-                                                    </button>
-                                                </form>
+                                                </a>
+                                                @can("del-album")
+                                                    <form id="frmDestroy_${row.album_id}" method="POST" action="${row.action.delete}">
+                                                        @csrf
+                                                        <button type="button" class="btn btn-danger btn-block btn-sm btn-flat">
+                                                            <i class="fas fa-times"></i> ลบ
+                                                        </button>
+                                                    </form>
+                                                @endcan
                                                 <div class="custom-control custom-switch p-2">
                                                     <input type="checkbox" class="custom-control-input" id="active_${row.album_id}" ${row.active == '1' ? 'checked' : ''}>
                                                     <label class="custom-control-label" for="active_${row.album_id}">การใช้งาน</label>

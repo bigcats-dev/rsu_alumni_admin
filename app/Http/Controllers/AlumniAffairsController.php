@@ -14,6 +14,9 @@ use Illuminate\Support\Facades\Storage;
 
 class AlumniAffairsController extends Controller
 {
+    public function __construct() {
+        $this->middleware("can:view-alumni-affairs");
+    }
     /**
      * Display a listing of the resource.
      *

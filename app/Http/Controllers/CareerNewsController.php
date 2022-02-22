@@ -14,6 +14,9 @@ use Illuminate\Support\Facades\Storage;
 
 class CareerNewsController extends Controller
 {
+    public function __construct() {
+        $this->middleware("can:view-career-news");
+    }
     /**
      * Display a listing of the resource.
      *

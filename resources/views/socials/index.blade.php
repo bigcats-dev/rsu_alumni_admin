@@ -5,8 +5,10 @@
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <h1 class="m-0">
-                        <strong>จัดการ Social Account </strong> 
-                        <a href="{{route("social.create")}}" class="btn  btn-success"  ><i class="far fa-plus"></i>  เพิ่ม Social Account </a> 
+                        <strong>จัดการ Social Account </strong>
+                        @can("create-social-account")
+                            <a href="{{route("social.create")}}" class="btn  btn-success"  ><i class="far fa-plus"></i>  เพิ่ม Social Account </a> 
+                        @endcan
                     </h1> 
                 </div>  
             </div> 
@@ -22,12 +24,14 @@
                                 <div class="div-box card-outline card-primary p-4">
                                     <h5>
                                         <strong>ชื่อ : {{$i->name}}</strong>
-                                        <button type="button" class="btn btn-danger float-right  btn-sm btn-flat delete" data-id="{{$i->social_id}}">
-                                            <i class="far fa-trash-alt"></i> ลบ
-                                        </button> 
-                                        <form style="display: none" method="POST" id="frmDestroy_{{$i->social_id}}" action="{{route("social.destroy",["social" => $i->social_id])}}">
-                                            @csrf
-                                        </form>
+                                        @can("del-social-account")
+                                            <button type="button" class="btn btn-danger float-right  btn-sm btn-flat delete" data-id="{{$i->social_id}}">
+                                                <i class="far fa-trash-alt"></i> ลบ
+                                            </button> 
+                                            <form style="display: none" method="POST" id="frmDestroy_{{$i->social_id}}" action="{{route("social.destroy",["social" => $i->social_id])}}">
+                                                @csrf
+                                            </form>
+                                        @endcan
                                     </h5>
                                     <h5 class="detail">
                                         <strong>Link : </strong><a href="{{$i->hyperlink}}" target="_blank">{{$i->hyperlink}}</a>
@@ -51,9 +55,11 @@
                                                 </select>  
                                             </div> 
                                             <div class="col">
-                                                <a href="{{route("social.view",["social" => $i->social_id])}}" class="btn btn-secondary btn-sm btn-flat">
-                                                    <i class="fas fa-eye"></i> ดูรายละเอียด
-                                                </a>   
+                                                @can("update-social-account")
+                                                    <a href="{{route("social.view",["social" => $i->social_id])}}" class="btn btn-secondary btn-sm btn-flat">
+                                                        <i class="fas fa-eye"></i> ดูรายละเอียด
+                                                    </a>
+                                                @endcan
                                             </div>
                                             <div class="col">
                                                 <div class="custom-control custom-switch">

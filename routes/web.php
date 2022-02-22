@@ -7,12 +7,15 @@ use App\Http\Controllers\AlumniGloryController;
 use App\Http\Controllers\AwardController;
 use App\Http\Controllers\CareerNewsController;
 use App\Http\Controllers\ConfigurationController;
+use App\Http\Controllers\IndexController;
 use App\Http\Controllers\PressReleaseController;
 use App\Http\Controllers\RecruitmentController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\SocialAccountController;
 use App\Http\Controllers\SpiritCoinActivityController;
 use App\Http\Controllers\SpiritCoinController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\VenderController;
 use App\Http\Controllers\YearBookController;
 use Illuminate\Support\Facades\Route;
@@ -28,13 +31,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return redirect()->route("press-release.index");
-});
-
-
 Route::middleware(["auth:token"])
     ->group(function () {
+
+        Route::get("/", [IndexController::class, "index"]);
+
         Route::prefix("press-release")
             ->name("press-release.")
             ->group(function () {
@@ -237,6 +238,26 @@ Route::middleware(["auth:token"])
             ->group(function () {
                 Route::get("/", [ConfigurationController::class, "contact"])->name("index");
                 Route::post("/", [ConfigurationController::class, "store"])->name("store");
+            });
+
+        Route::prefix("role")
+            ->name("role.")
+            ->group(function () {
+                Route::get("/", [RoleController::class, "index"])->name("index");
+                Route::get("create", [RoleController::class, "create"])->name("create");
+                Route::get("{role}/view", [RoleController::class, "show"])->name("view");
+                Route::get("{role}/edit", [RoleController::class, "edit"])->name("edit");
+                Route::post("/", [RoleController::class, "store"])->name("store");
+                Route::post("{role}/update", [RoleController::class, "update"])->name("update");
+                Route::post("{role}/delete", [RoleController::class, "destroy"])->name("destroy");
+            });
+
+        Route::prefix("user")
+            ->name("user.")
+            ->group(function () {
+                Route::get("/", [UserController::class, "index"])->name("index");
+                Route::get("{user}/view", [UserController::class, "show"])->name("view");
+                Route::post("{user}/update", [UserController::class, "update"])->name("update");
             });
 
         Route::prefix("service")

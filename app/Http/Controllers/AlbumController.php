@@ -14,6 +14,10 @@ use Illuminate\Support\Str;
 
 class AlbumController extends Controller
 {
+    public function __construct() {
+        $this->middleware("can:view-album");
+    }
+
     /**
      * Display a listing of the resource.
      *

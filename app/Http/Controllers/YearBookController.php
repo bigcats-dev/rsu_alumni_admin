@@ -16,6 +16,9 @@ use Intervention\Image\Facades\Image;
 
 class YearBookController extends Controller
 {
+    public function __construct() {
+        $this->middleware("can:view-year-book");
+    }
     /**
      * Display a listing of the resource.
      *

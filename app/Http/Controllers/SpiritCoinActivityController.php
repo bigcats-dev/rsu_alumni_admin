@@ -12,6 +12,9 @@ use Illuminate\Support\Str;
 
 class SpiritCoinActivityController extends Controller
 {
+    public function __construct() {
+        $this->middleware("can:view-spirit-coin-activity");
+    }
     /**
      * Display a listing of the resource.
      *

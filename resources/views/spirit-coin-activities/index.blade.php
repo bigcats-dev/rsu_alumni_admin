@@ -6,9 +6,11 @@
                 <div class="col-sm-6">
                     <h1 class="m-0">
                         <strong>กิจกรรมสปิริตคอยน์</strong>
-                        <a href="{{route("spirit-coin-activity.create")}}" class="btn  btn-success"><i class="far fa-plus"></i>
-                            สร้างกิจกรรมสปิริตคอยน์
-                        </a>
+                        @can("create-spirit-coin-activity")
+                            <a href="{{route("spirit-coin-activity.create")}}" class="btn  btn-success"><i class="far fa-plus"></i>
+                                สร้างกิจกรรมสปิริตคอยน์
+                            </a>
+                        @endcan
                     </h1>
                 </div>
             </div>
@@ -151,16 +153,18 @@
                             switch (value) {
                                 case '0':
                                     return(`
-                                        <form id="frmApprove_${row.spirit_coin_activity_id}" method="POST" action="${row.action.approve}" class="mb-2">
-                                            @csrf
-                                            <input type="hidden" name="action" value="1" />
-                                            <button type="button" class="btn btn-success btn-block btn-sm btn-flat">
-                                                <i class="far fa-check"></i> อนุมัติ
+                                        @can("approve-spirit-coin-activity")
+                                            <form id="frmApprove_${row.spirit_coin_activity_id}" method="POST" action="${row.action.approve}" class="mb-2">
+                                                @csrf
+                                                <input type="hidden" name="action" value="1" />
+                                                <button type="button" class="btn btn-success btn-block btn-sm btn-flat">
+                                                    <i class="far fa-check"></i> อนุมัติ
+                                                </button>
+                                            </form>
+                                            <button type="button" class="btn btn-danger btn-block btn-sm btn-flat" data-id="${row.spirit_coin_activity_id}" data-toggle="modal" data-target="#modalDisApprove">
+                                                <i class="fas fa-times"></i> ไม่อนุมัติ
                                             </button>
-                                        </form>
-                                        <button type="button" class="btn btn-danger btn-block btn-sm btn-flat" data-id="${row.spirit_coin_activity_id}" data-toggle="modal" data-target="#modalDisApprove">
-                                            <i class="fas fa-times"></i> ไม่อนุมัติ
-                                        </button>  
+                                        @endcan
                                         <a href="${row.action?.view}" class="btn btn-secondary btn-block btn-sm btn-flat">
                                             <i class="fas fa-eye"></i> ดูรายละเอียด
                                         </a>
@@ -172,12 +176,14 @@
                                                 <a href="${row.action?.view}" class="btn btn-secondary btn-block btn-sm btn-flat mb-1">
                                                     <i class="fas fa-eye"></i> ดูรายละเอียด
                                                 </a>
-                                                <form id="frmDestroy_${row.spirit_coin_activity_id}" method="POST" action="${row.action?.delete}">
-                                                    @csrf
-                                                    <button type="button" class="btn btn-danger btn-block btn-sm btn-flat">
-                                                        <i class="fas fa-times"></i> ลบ
-                                                    </button>
-                                                </form>
+                                                @can("del-spirit-coin-activity")
+                                                    <form id="frmDestroy_${row.spirit_coin_activity_id}" method="POST" action="${row.action?.delete}">
+                                                        @csrf
+                                                        <button type="button" class="btn btn-danger btn-block btn-sm btn-flat">
+                                                            <i class="fas fa-times"></i> ลบ
+                                                        </button>
+                                                    </form>
+                                                @endcan
                                             </div>
                                         </div>
                                     `)

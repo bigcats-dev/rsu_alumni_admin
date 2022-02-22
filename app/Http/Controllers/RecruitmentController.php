@@ -12,6 +12,9 @@ use Illuminate\Support\Facades\DB;
 
 class RecruitmentController extends Controller
 {
+    public function __construct() {
+        $this->middleware("can:view-recruitment");
+    }
     /**
      * Display a listing of the resource.
      *

@@ -12,6 +12,10 @@ use Illuminate\Support\Str;
 
 class SocialAccountController extends Controller
 {
+    public function __construct() {
+        $this->middleware("can:view-social-account");
+    }
+
     /**
      * Display a listing of the resource.
      *

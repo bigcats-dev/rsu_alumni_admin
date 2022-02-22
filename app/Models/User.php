@@ -6,10 +6,11 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Permissions\HasPermissionsTrait;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable,HasPermissionsTrait;
     /**
      * The table name
      *
@@ -42,6 +43,7 @@ class User extends Authenticatable
         'email',
         'password',
         'keycloak_id',
+        'role_id'
     ];
 
     /**
@@ -52,6 +54,16 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
     ];
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class,"role_id","role_id");
+    }
+
+    public function scopeIsAdmin($query)
+    {
+        return $query->where("is_admin",1);
+    }
 
     /**
      * {@inheritDoc}

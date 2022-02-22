@@ -250,7 +250,7 @@ body{
   font-size: 20px;
   font-weight: bold;
 }
-.div-box form input{
+.div-box form input,.div-box form select{
   font-size: 20px; 
 }
 .div-box form textarea{

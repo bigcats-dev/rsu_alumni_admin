@@ -117,9 +117,11 @@
                 <div class="col-sm-6">
                     <h1 class="m-0">
                         <strong>จัดการข้อมูลประเภทรางวัล</strong>
-                        <button data-action="{{route("award.store")}}" class="btn  btn-success" data-toggle="modal" data-target="#mdAward">
-                            <i class="far fa-plus"></i> สร้างประเภทรางวัล
-                        </button>
+                        @can("create-award")
+                            <button data-action="{{route("award.store")}}" class="btn  btn-success" data-toggle="modal" data-target="#mdAward">
+                                <i class="far fa-plus"></i> สร้างประเภทรางวัล
+                            </button>
+                        @endcan
                     </h1>
                 </div>
             </div>
@@ -143,21 +145,27 @@
                                                 <a href="javascript::void(0)">
                                                     {{$i + 1}} . {{ $item->award_type_name }}
                                                 </a>
-                                                <i  data-toggle="modal"
-                                                    data-target="#mdAward"
-                                                    data-name="{{$item->award_type_name}}"
-                                                    data-action="{{ route("award.update",["award" => $item->award_type_id]) }}"
-                                                    class="fas fa-edit float-right">
-                                                </i>
-                                                <i class="fas fa-trash float-right text-danger" data-id="{{$item->award_type_id}}"></i>                                                                    
-                                                <form method="POST" style="display: none" id="frmDestroy_{{$item->award_type_id}}" action="{{ route("award.destroy",["award" => $item->award_type_id]) }}">
-                                                        @csrf
-                                                </form>
-                                                <i  data-toggle="modal" 
-                                                    data-target="#mdAward"
-                                                    data-parent_id="{{ $item->award_type_id }}"
-                                                    data-action="{{ route("award.store") }}"
-                                                    class="fas fa-plus-circle float-right">
+                                                @can("update-award")
+                                                    <i  data-toggle="modal"
+                                                        data-target="#mdAward"
+                                                        data-name="{{$item->award_type_name}}"
+                                                        data-action="{{ route("award.update",["award" => $item->award_type_id]) }}"
+                                                        class="fas fa-edit float-right">
+                                                    </i>
+                                                @endcan
+                                                @can("del-award")
+                                                    <i class="fas fa-trash float-right text-danger" data-id="{{$item->award_type_id}}"></i>                                                                    
+                                                    <form method="POST" style="display: none" id="frmDestroy_{{$item->award_type_id}}" action="{{ route("award.destroy",["award" => $item->award_type_id]) }}">
+                                                            @csrf
+                                                    </form>
+                                                @endcan
+                                                @can("create-award")
+                                                    <i  data-toggle="modal" 
+                                                        data-target="#mdAward"
+                                                        data-parent_id="{{ $item->award_type_id }}"
+                                                        data-action="{{ route("award.store") }}"
+                                                        class="fas fa-plus-circle float-right">
+                                                @endcan
                                                 </i>
                                                 <div class="custom-control custom-switch float-right">
                                                     <input
@@ -177,15 +185,19 @@
                                                                 <a href="javascript::void(0)">
                                                                     {{$i + 1}}.{{$j + 1}} {{ $subitem->award_type_name }}
                                                                 </a>
-                                                                <i  data-toggle="modal"
-                                                                    data-target="#mdAward"
-                                                                    data-name="{{$subitem->award_type_name}}"
-                                                                    data-action="{{ route("award.update",["award" => $subitem->award_type_id]) }}"
-                                                                    class="fas fa-edit float-right"></i>
-                                                                <i class="fas fa-trash float-right text-danger" data-id="{{$subitem->award_type_id}}"></i>                                                                    
-                                                                <form style="display: none" method="POST" id="frmDestroy_{{$subitem->award_type_id}}" action="{{ route("award.destroy",["award" => $subitem->award_type_id]) }}">
-                                                                     @csrf
-                                                                </form>
+                                                                @can("update-award")
+                                                                    <i  data-toggle="modal"
+                                                                        data-target="#mdAward"
+                                                                        data-name="{{$subitem->award_type_name}}"
+                                                                        data-action="{{ route("award.update",["award" => $subitem->award_type_id]) }}"
+                                                                        class="fas fa-edit float-right"></i>
+                                                                @endcan
+                                                                @can("del-award")
+                                                                    <i class="fas fa-trash float-right text-danger" data-id="{{$subitem->award_type_id}}"></i>                                                                    
+                                                                    <form style="display: none" method="POST" id="frmDestroy_{{$subitem->award_type_id}}" action="{{ route("award.destroy",["award" => $subitem->award_type_id]) }}">
+                                                                        @csrf
+                                                                    </form>
+                                                                @endcan
                                                                 <div class="custom-control custom-switch float-right">
                                                                     <input
                                                                         id="active_{{$subitem->award_type_id}}"

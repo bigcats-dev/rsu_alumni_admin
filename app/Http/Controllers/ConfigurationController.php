@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\DB;
 
 class ConfigurationController extends Controller
 {
+    public function __construct() {
+        $this->middleware("can:view-contact")->only("contact");
+    }
+
     public function contact()
     {
         return view("contact.index",[

@@ -80,7 +80,9 @@
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-xl-5 col-12">
-                                        <button type="submit" class="btn btn-success btn-block" data-loading-text="กรุณารอซักครู่...">บันทึก</button>
+                                        @canany(['create-social-account', 'update-social-account'])
+                                            <button type="submit" class="btn btn-success btn-block" data-loading-text="กรุณารอซักครู่...">บันทึก</button>
+                                        @endcanany
                                     </div> 
                                     <div class="col-xl-5 col-12">
                                         <button type="button" class="btn btn-secondary btn-block" onclick="window.history.back()">ยกเลิก</button>

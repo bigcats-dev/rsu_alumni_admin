@@ -6,9 +6,11 @@
                 <div class="col-sm-6">
                     <h1 class="m-0">
                         <strong>การรับสมัครงาน</strong>
-                        <a href="{{route("recruitment.create")}}" class="btn  btn-success"><i class="far fa-plus"></i>
-                            สร้างการรับสมัครงาน
-                        </a>
+                        @can("create-recruitment")
+                            <a href="{{route("recruitment.create")}}" class="btn  btn-success"><i class="far fa-plus"></i>
+                                สร้างการรับสมัครงาน
+                            </a>
+                        @endcan
                     </h1>
                 </div>
             </div>
@@ -244,12 +246,14 @@
                             switch (value) {
                                 case '0':
                                     return(`
-                                        <button type="button" class="btn btn-success btn-block btn-sm btn-flat" data-id="${row.recruitment_id}" data-toggle="modal" data-target="#modalAprove">
-                                            <i class="far fa-check"></i> อนุมัติ
-                                        </button>
-                                        <button type="button" class="btn btn-danger btn-block btn-sm btn-flat" data-id="${row.recruitment_id}" data-toggle="modal" data-target="#modalDisApprove">
-                                            <i class="fas fa-times"></i> ไม่อนุมัติ
-                                        </button>  
+                                        @can("approve-recruitment")
+                                            <button type="button" class="btn btn-success btn-block btn-sm btn-flat" data-id="${row.recruitment_id}" data-toggle="modal" data-target="#modalAprove">
+                                                <i class="far fa-check"></i> อนุมัติ
+                                            </button>
+                                            <button type="button" class="btn btn-danger btn-block btn-sm btn-flat" data-id="${row.recruitment_id}" data-toggle="modal" data-target="#modalDisApprove">
+                                                <i class="fas fa-times"></i> ไม่อนุมัติ
+                                            </button>
+                                        @endcan
                                         <a href="${row.action?.view}" class="btn btn-secondary btn-block btn-sm btn-flat">
                                             <i class="fas fa-eye"></i> ดูรายละเอียด
                                         </a>
@@ -266,14 +270,16 @@
                                                     <label class="custom-control-label" for="active_${row.recruitment_id}">การใช้งาน</label>
                                                 </div> 
                                             </div>
-                                            <div class="col">
-                                                <form id="frmDestroy_${row.recruitment_id}" method="POST" action="${row.action.delete}">
-                                                    @csrf
-                                                    <button type="button" class="btn btn-danger btn-block btn-sm btn-flat">
-                                                        <i class="fas fa-times"></i> ลบ
-                                                    </button>
-                                                </form>
-                                            </div>
+                                            @can("del-recruitment")
+                                                <div class="col">
+                                                    <form id="frmDestroy_${row.recruitment_id}" method="POST" action="${row.action.delete}">
+                                                        @csrf
+                                                        <button type="button" class="btn btn-danger btn-block btn-sm btn-flat">
+                                                            <i class="fas fa-times"></i> ลบ
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            @endcan
                                         </div>
                                     `)
                             }

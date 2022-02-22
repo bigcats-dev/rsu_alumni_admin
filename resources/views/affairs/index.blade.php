@@ -6,9 +6,11 @@
                 <div class="col-sm-6">
                     <h1 class="m-0">
                         <strong>กิจการศิษย์เก่า</strong>
-                        <a href="{{route("alumni-affairs.create")}}" class="btn  btn-success"><i class="far fa-plus"></i>
-                            สร้างกิจการศิษย์เก่า
-                        </a>
+                        @can("create-alumni-affairs")
+                            <a href="{{route("alumni-affairs.create")}}" class="btn  btn-success"><i class="far fa-plus"></i>
+                                สร้างกิจการศิษย์เก่า
+                            </a>
+                        @endcan
                     </h1>
                 </div>
             </div>
@@ -138,16 +140,18 @@
                             switch (value) {
                                 case '0':
                                     return(`
-                                        <form id="frmApprove_${row.alumni_affairs_id}" method="POST" action="${row.action.approve}" class="mb-2">
-                                            @csrf
-                                            <input type="hidden" name="action" value="1" />
-                                            <button type="button" class="btn btn-success btn-block btn-sm btn-flat" data-id="${row.alumni_affairs_id}">
-                                                <i class="far fa-check"></i> อนุมัติ
+                                        @can("approve-alumni-affairs")
+                                            <form id="frmApprove_${row.alumni_affairs_id}" method="POST" action="${row.action.approve}" class="mb-2">
+                                                @csrf
+                                                <input type="hidden" name="action" value="1" />
+                                                <button type="button" class="btn btn-success btn-block btn-sm btn-flat" data-id="${row.alumni_affairs_id}">
+                                                    <i class="far fa-check"></i> อนุมัติ
+                                                </button>
+                                            </form>
+                                            <button type="button" class="btn btn-danger btn-block btn-sm btn-flat" data-id="${row.alumni_affairs_id}" data-toggle="modal" data-target="#modalDisApprove">
+                                                <i class="fas fa-times"></i> ไม่อนุมัติ
                                             </button>
-                                        </form>
-                                        <button type="button" class="btn btn-danger btn-block btn-sm btn-flat" data-id="${row.alumni_affairs_id}" data-toggle="modal" data-target="#modalDisApprove">
-                                            <i class="fas fa-times"></i> ไม่อนุมัติ
-                                        </button>  
+                                        @endcan
                                         <a href="${row.action?.view}" class="btn btn-secondary btn-block btn-sm btn-flat">
                                             <i class="fas fa-eye"></i> ดูรายละเอียด
                                         </a>
@@ -160,14 +164,16 @@
                                                     <i class="fas fa-eye"></i> ดูรายละเอียด
                                                 </a>
                                             </div>
-                                            <div class="col">
-                                                <form id="frmDestroy_${row.alumni_affairs_id}" method="POST" action="${row.action.delete}">
-                                                    @csrf
-                                                    <button type="button" class="btn btn-danger btn-block btn-sm btn-flat">
-                                                        <i class="fas fa-times"></i> ลบ
-                                                    </button>
-                                                </form>
-                                            </div>
+                                            @can("del-alumni-affairs")
+                                                <div class="col">
+                                                    <form id="frmDestroy_${row.alumni_affairs_id}" method="POST" action="${row.action.delete}">
+                                                        @csrf
+                                                        <button type="button" class="btn btn-danger btn-block btn-sm btn-flat">
+                                                            <i class="fas fa-times"></i> ลบ
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            @endcan
                                         </div>
                                     `)
                             }

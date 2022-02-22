@@ -18,6 +18,9 @@ use function PHPSTORM_META\map;
 
 class VenderController extends Controller
 {
+    public function __construct() {
+        $this->middleware("can:view-vender");
+    }
     /**
      * Display a listing of the resource.
      *

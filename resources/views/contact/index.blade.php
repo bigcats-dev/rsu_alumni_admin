@@ -100,7 +100,11 @@
                     </div>
                     <div class="form-group row">
                         <div class="col-xl-5 col-12">
-                            <button type="submit" class="btn btn-success btn-block" data-loading-text="กรุณารอซักครู่...">บันทึก</button>
+                            @can("update-contact")
+                                <button type="submit" class="btn btn-success btn-block" data-loading-text="กรุณารอซักครู่...">บันทึก</button>
+                            @else
+                                <button type="button" disabled class="btn btn-success btn-block"></button>
+                            @endcan
                         </div>
                         <div class="col-xl-5 col-12">
                             <button type="button" class="btn btn-secondary btn-block" onclick="window.location.reload()">ยกเลิก</button>

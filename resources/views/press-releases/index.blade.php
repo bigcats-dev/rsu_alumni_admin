@@ -6,9 +6,11 @@
                 <div class="col-sm-6">
                     <h1 class="m-0">
                         <strong>ข่าวสารประชาสัมพันธ์</strong>
-                        <a href="{{route("press-release.create")}}" class="btn  btn-success"><i class="far fa-plus"></i>
-                            สร้างข่าวประชาสัมพันธ์
-                        </a>
+                        @can("create-press-release")
+                            <a href="{{route("press-release.create")}}" class="btn  btn-success"><i class="far fa-plus"></i>
+                                สร้างข่าวประชาสัมพันธ์
+                            </a>
+                        @endcan
                     </h1>
                 </div>
             </div>
@@ -245,12 +247,14 @@
                             switch (value) {
                                 case '0':
                                     return(`
-                                        <button type="button" class="btn btn-success btn-block btn-sm btn-flat" data-id="${row.training_news_id}" data-toggle="modal" data-target="#modalAprove">
-                                            <i class="far fa-check"></i> อนุมัติ
-                                        </button>
-                                        <button type="button" class="btn btn-danger btn-block btn-sm btn-flat" data-id="${row.training_news_id}" data-toggle="modal" data-target="#modalDisApprove">
-                                            <i class="fas fa-times"></i> ไม่อนุมัติ
-                                        </button>  
+                                        @can("approve-press-release")
+                                            <button type="button" class="btn btn-success btn-block btn-sm btn-flat" data-id="${row.training_news_id}" data-toggle="modal" data-target="#modalAprove">
+                                                <i class="far fa-check"></i> อนุมัติ
+                                            </button>
+                                            <button type="button" class="btn btn-danger btn-block btn-sm btn-flat" data-id="${row.training_news_id}" data-toggle="modal" data-target="#modalDisApprove">
+                                                <i class="fas fa-times"></i> ไม่อนุมัติ
+                                            </button>
+                                        @endcan
                                         <a href="${row.action?.view}" class="btn btn-secondary btn-block btn-sm btn-flat">
                                             <i class="fas fa-eye"></i> ดูรายละเอียด
                                         </a>
@@ -269,12 +273,14 @@
                                                 </select> 
                                             </div>
                                             <div class="col">
-                                                <form id="frmDestroy_${row.training_news_id}" method="POST" action="${row.action.delete}">
-                                                    @csrf
-                                                    <button type="button" class="btn btn-danger btn-block btn-sm btn-flat">
-                                                        <i class="fas fa-times"></i> ลบ
-                                                    </button>
-                                                </form>
+                                                @can("del-press-release")
+                                                    <form id="frmDestroy_${row.training_news_id}" method="POST" action="${row.action.delete}">
+                                                        @csrf
+                                                        <button type="button" class="btn btn-danger btn-block btn-sm btn-flat">
+                                                            <i class="fas fa-times"></i> ลบ
+                                                        </button>
+                                                    </form>
+                                                @endcan
                                                 <div class="custom-control custom-switch p-2">
                                                     <input type="checkbox" class="custom-control-input" id="show_homepage_${row.training_news_id}" ${row.home_page == '1' ? 'checked' : ''}>
                                                     <label class="custom-control-label" for="show_homepage_${row.training_news_id}">แสดงหน้าหลัก</label>

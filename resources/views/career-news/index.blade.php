@@ -6,9 +6,11 @@
                 <div class="col-sm-6">
                     <h1 class="m-0">
                         <strong>ข่าวอบรมหลักสูตรอาชีพ</strong>
-                        <a href="{{route("career-news.create")}}" class="btn  btn-success"><i class="far fa-plus"></i>
-                            สร้างข่าวอบรมหลักสูตรอาชีพ
-                        </a>
+                        @can("create-career-news")
+                            <a href="{{route("career-news.create")}}" class="btn  btn-success"><i class="far fa-plus"></i>
+                                สร้างข่าวอบรมหลักสูตรอาชีพ
+                            </a>
+                        @endcan
                     </h1>
                 </div>
             </div>
@@ -255,12 +257,14 @@
                             switch (value) {
                                 case '0':
                                     return(`
-                                        <button type="button" class="btn btn-success btn-block btn-sm btn-flat" data-id="${row.career_news_id}" data-toggle="modal" data-target="#modalAprove">
-                                            <i class="far fa-check"></i> อนุมัติ
-                                        </button>
-                                        <button type="button" class="btn btn-danger btn-block btn-sm btn-flat" data-id="${row.career_news_id}" data-toggle="modal" data-target="#modalDisApprove">
-                                            <i class="fas fa-times"></i> ไม่อนุมัติ
-                                        </button>  
+                                        @can("approve-career-news")
+                                            <button type="button" class="btn btn-success btn-block btn-sm btn-flat" data-id="${row.career_news_id}" data-toggle="modal" data-target="#modalAprove">
+                                                <i class="far fa-check"></i> อนุมัติ
+                                            </button>
+                                            <button type="button" class="btn btn-danger btn-block btn-sm btn-flat" data-id="${row.career_news_id}" data-toggle="modal" data-target="#modalDisApprove">
+                                                <i class="fas fa-times"></i> ไม่อนุมัติ
+                                            </button>
+                                        @endcan
                                         <a href="${row.action?.view}" class="btn btn-secondary btn-block btn-sm btn-flat">
                                             <i class="fas fa-eye"></i> ดูรายละเอียด
                                         </a>
@@ -272,12 +276,14 @@
                                                 <a href="${row.action?.view}" class="btn btn-secondary btn-block btn-sm btn-flat mb-1">
                                                     <i class="fas fa-eye"></i> ดูรายละเอียด
                                                 </a>
-                                                <form id="frmDestroy_${row.career_news_id}" method="POST" action="${row.action.delete}" class="mb-1">
-                                                    @csrf
-                                                    <button type="button" class="btn btn-danger btn-block btn-sm btn-flat">
-                                                        <i class="fas fa-times"></i> ลบ
-                                                    </button>
-                                                </form>
+                                                @can("del-career-news")
+                                                    <form id="frmDestroy_${row.career_news_id}" method="POST" action="${row.action.delete}" class="mb-1">
+                                                        @csrf
+                                                        <button type="button" class="btn btn-danger btn-block btn-sm btn-flat">
+                                                            <i class="fas fa-times"></i> ลบ
+                                                        </button>
+                                                    </form>
+                                                @endcan
                                                 <select class="form-control form-control-sm" id="sl-priority_${row.career_news_id}">
                                                     @for ($i = 1;$i <= $records;$i++)
                                                         <option value="{{$i}}" ${row.priority == '{{$i}}' ? 'selected' : ''}>{{$i}}</option>

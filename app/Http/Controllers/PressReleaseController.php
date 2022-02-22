@@ -12,6 +12,9 @@ use Illuminate\Support\Str;
 
 class PressReleaseController extends Controller
 {
+    public function __construct() {
+        $this->middleware(["can:view-press-release"]);
+    }
     /**
      * Display a listing of the resource.
      *

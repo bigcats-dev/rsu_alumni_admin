@@ -177,7 +177,9 @@ return [
         // Oracle
         Yajra\Oci8\Oci8ServiceProvider::class,
         // Resize Image
-        Intervention\Image\ImageServiceProvider::class
+        Intervention\Image\ImageServiceProvider::class,
+        //PermissionProvider
+        App\Providers\PermissionsServiceProvider::class,
     ],
 
     /*

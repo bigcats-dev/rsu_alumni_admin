@@ -16,6 +16,9 @@ use App\Models\AlumniGloryImage;
 
 class AlumniGloryController extends Controller
 {
+    public function __construct() {
+        $this->middleware("can:view-alumni-glory");
+    }
     /**
      * Display a listing of the resource.
      *

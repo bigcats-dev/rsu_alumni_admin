@@ -60,7 +60,7 @@
                                 <table class="table table-striped" style="width: 100%;font-size:20px">
                                     <thead>
                                         <tr>
-                                            <th width="20%">เมนู</th>
+                                            <th width="40%">เมนู</th>
                                             <th>การอนุญาต</th>
                                         </tr>
                                     </thead>
@@ -71,7 +71,7 @@
                                                     <td><b>{{$menus[$key]}}</b></td>
                                                     <td>
                                                         @foreach ($permission as $p)
-                                                            <div class="form-check form-check-inline">
+                                                            <div class="form-check">
                                                                 <input
                                                                     @cannot("update-role")
                                                                         disabled

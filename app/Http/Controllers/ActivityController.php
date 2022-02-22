@@ -25,6 +25,7 @@ class ActivityController extends Controller
         $this->middleware("can:update-event-news")->only("update");
         $this->middleware("can:del-event-news")->only("destroy");
         $this->middleware("can:approve-event-news")->only("approve");
+        $this->middleware("can:booking-room")->only(["book","booking"]);
     }
     /**
      * Display a listing of the resource.

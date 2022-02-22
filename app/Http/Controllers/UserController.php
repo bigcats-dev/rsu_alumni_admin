@@ -14,6 +14,7 @@ class UserController extends Controller
 {
     public function __construct() {
         $this->middleware("can:view-user");
+        $this->middleware("can:update-user")->only("update");
     }
 
     /**
@@ -36,7 +37,8 @@ class UserController extends Controller
 
             $buildQuery = User::selectRaw("row_number() over (order by users.id desc) as seqnum,users.*,roles.role_name_th")
                 ->leftjoin("roles", "users.role_id", "=", "roles.role_id")
-                ->where($whereCondition);
+                ->where($whereCondition)
+                ->where("role_level","<=",$this->user()->role->role_level);
 
             if (Str::of(request()->input("search.value"))->trim()->isNotEmpty()) {
                 $target = request()->input("search.value");

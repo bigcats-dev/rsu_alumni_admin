@@ -12,6 +12,7 @@ class RoleController extends Controller
 {
     public function __construct() {
         $this->middleware("can:view-role");
+        $this->middleware("can:update-role")->only("update");
     }
     /**
      * Display a listing of the resource.

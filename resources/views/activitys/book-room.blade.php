@@ -107,6 +107,7 @@
                                         @if ($activity->activity_room && $activity->activity_room->type == "1" && sizeof($activity->activity_room_schedule) > 0)
                                             @foreach ($activity->activity_room_schedule as $key => $item)
                                                 <div class="form-group room_box place-inside" id="roomBox_{{$key}}" data-index="{{$key}}">
+                                                    <hr/>
                                                     <div class="form-group row">
                                                         <input type="hidden" name="room[{{$key}}][id]" value="{{$item->activity_room_schedules_id}}">
                                                         <label class="col-lg-2 text-right">ช่วงวันที่จอง <span class="sp-required">*</span></label>
@@ -235,7 +236,6 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <hr/>
                                             @endforeach
                                         @endif
                                     @endisset
@@ -259,6 +259,7 @@
     {{-- room --}}
     <textarea style="display: none" id="room-tempalte">
         <div class="form-group room_box place-inside" id="roomBox_{0}" data-index="{0}">
+            <hr/>
             <div class="form-group row">
                 <label class="col-lg-2 text-right" for="room_group_id_{0}">ช่วงวันที่จอง <span class="sp-required">*</span></label>
                 <div class="col-lg-7">

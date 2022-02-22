@@ -9,6 +9,9 @@ class AwardController extends Controller
 {
     public function __construct() {
         $this->middleware("can:view-award");
+        $this->middleware("can:create-award")->only("store");
+        $this->middleware("can:update-award")->only("update");
+        $this->middleware("can:del-award")->only("destroy");
     }
     /**
      * Display a listing of the resource.

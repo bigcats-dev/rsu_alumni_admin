@@ -19,6 +19,7 @@ class Role extends Model
         'role_name',
         'role_name_th',
         'role_slug',
+        'role_level',
     ];
 
     public $timestamps = false;

@@ -12,7 +12,8 @@ use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware("can:view-user");
         $this->middleware("can:update-user")->only("update");
     }
@@ -32,13 +33,13 @@ class UserController extends Controller
             $whereCondition = function ($query) {
                 $query->where("is_admin", 1);
                 $query->where("id", "<>", Auth::id());
+                $query->where("role_level", "<=", Auth::user()->role->role_level);
             };
-            $totalData = User::where($whereCondition)->count();
+            $totalData = User::leftjoin("roles", "users.role_id", "=", "roles.role_id")->where($whereCondition)->count();
 
             $buildQuery = User::selectRaw("row_number() over (order by users.id desc) as seqnum,users.*,roles.role_name_th")
                 ->leftjoin("roles", "users.role_id", "=", "roles.role_id")
-                ->where($whereCondition)
-                ->where("role_level","<=",$this->user()->role->role_level);
+                ->where($whereCondition);
 
             if (Str::of(request()->input("search.value"))->trim()->isNotEmpty()) {
                 $target = request()->input("search.value");

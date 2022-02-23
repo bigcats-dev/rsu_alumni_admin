@@ -1,47 +1,47 @@
 FROM php:7.3.5-fpm
 
-# RUN apt-get update && apt-get install -y cron supervisor libpng-dev libmcrypt-dev libzip-dev -qqy git vim unzip libfreetype6-dev \
-#     mysql-client libmagickwand-dev --no-install-recommends \
-#     && pecl install imagick mcrypt-1.0.2 \
-#     libjpeg62-turbo-dev \
-#     libpng-dev \
-#     libaio1 wget && apt-get clean autoclean && apt-get autoremove --yes &&  rm -rf /var/lib/{apt,dpkg,cache,log}/ \
-#     && docker-php-ext-enable imagick mcrypt \
-#     && docker-php-ext-install pdo_mysql \
-#     && docker-php-ext-install zip \
-#     && docker-php-ext-install gd
+RUN apt-get update && apt-get install  -y \
+    cron \
+    supervisor \
+    libmcrypt-dev \
+    libzip-dev \ 
+    vim \
+    unzip \
+    libfreetype6-dev \
+    mysql-client \
+    libjpeg62-turbo-dev \
+    libpng-dev \
+    libjpeg62 \
+    libaio1 \
+    libmagickwand-dev --no-install-recommends \
+    curl
 
-RUN apt-get update && apt-get install -y \
-        cron \
-        supervisor \
-        libfreetype6-dev \
-        libjpeg62-turbo-dev \
-        libmcrypt-dev \
-        libpng-dev \
-        libzip-dev \
-        libaio1 \
-        -qqy \
-        git \
-        vim \
-        unzip \
-        wget \
-        mysql-client \
-        libmagickwand-dev --no-install-recommends
+COPY imagick-3.7.0.tgz .
 
-RUN pecl install imagick \
-    && docker-php-ext-enable imagick
+COPY mcrypt-1.0.4.tgz .
 
-RUN pecl install mcrypt \
-    && docker-php-ext-enable mcrypt
+RUN pecl install imagick-3.7.0.tgz mcrypt-1.0.4.tgz
 
-RUN apt-get clean autoclean && apt-get autoremove --yes &&  rm -rf /var/lib/{apt,dpkg,cache,log}/ \
-    && docker-php-ext-install zip \
-    && docker-php-ext-install pdo_mysql \
-    && docker-php-ext-install gd
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+
+RUN docker-php-ext-enable imagick mcrypt
+
+RUN docker-php-ext-install pdo_mysql zip
+
+RUN docker-php-ext-configure gd \
+        --with-freetype-dir=/usr/lib/ \
+        --with-png-dir=/usr/lib/ \
+        --with-jpeg-dir=/usr/lib/ \
+        --with-gd
+
+RUN NUMPROC=$(grep -c ^processor /proc/cpuinfo 2>/dev/null || 1) \
+    && docker-php-ext-install -j${NUMPROC} gd
     
-
 # Install Composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && chmod +x /usr/local/bin/composer 
+COPY --from=composer /usr/bin/composer /usr/bin/composer
+# RUN curl -sS https://getcomposer.org/installer | php -- \
+#     --install-dir=/usr/local/bin \
+#     --filename=composer
 
 # ORACLE oci
 RUN mkdir /opt/oracle \
@@ -59,8 +59,10 @@ RUN unzip /opt/oracle/instantclient-basic-linux.x64-19.8.0.0.0dbru.zip -d /opt/o
 
 ENV LD_LIBRARY_PATH  /opt/oracle/instantclient_19_8:${LD_LIBRARY_PATH}
 
+COPY oci8-2.2.0.tgz .
+
 # Install Oracle extensions
-RUN echo 'instantclient,/opt/oracle/instantclient_19_8/' | pecl install oci8-2.2.0 \
+RUN echo 'instantclient,/opt/oracle/instantclient_19_8/' | pecl install oci8-2.2.0.tgz \
     && docker-php-ext-enable oci8
     
 RUN docker-php-ext-configure pdo_oci --with-pdo-oci=instantclient,/opt/oracle/instantclient_19_8,19.1 \
@@ -84,24 +86,7 @@ RUN mv .env.prod .env
 
 RUN php artisan optimize
 
-RUN php artisan queue:restart
-
-# add schedule sh
-COPY ./provisioning/schedule.sh /
-
-RUN ["chmod", "+x", "/schedule.sh"]
-
-RUN crontab -l | { cat; echo '* * * * * /schedule.sh > /var/www/rsu/storage/logs/schedule.log 2>&1'; } | crontab -
-
-COPY ./provisioning/laravel-worker.conf /etc/supervisor/conf.d/laravel-worker.conf
-
-COPY ./provisioning/laravel-schedule.conf /etc/supervisor/conf.d/laravel-schedule.conf
-
-COPY ./provisioning/entrypoint.sh /
-
-RUN ["chmod", "+x", "/entrypoint.sh"]
-
-ENTRYPOINT ["/entrypoint.sh"]
+RUN php artisan storage:link
 
 EXPOSE 9000
 

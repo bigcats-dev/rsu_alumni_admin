@@ -26,6 +26,15 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        // get configs
+        $cfg = $this->app['config'];
+        // check app enverionment
+        // if env equae production
+        if ($cfg['app.env'] === 'production') {
+            // set base url
+            app()->get('url')->forceRootUrl($cfg['app.url']);
+        }
+        
         try {
             DB::getPdo();
             config([

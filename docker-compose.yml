@@ -20,7 +20,7 @@ services:
     working_dir: /var/www
     restart: always
     volumes:
-      - ./:/var/www/rsu
+      - ./public:/var/www/rsu/public
       - ./../storage/alumni/storage/app/:/var/www/rsu/storage/app/
     ports:
       - 30222:80

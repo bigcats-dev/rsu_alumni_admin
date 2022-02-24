@@ -88,6 +88,11 @@
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
+            statusCode:{
+                404: function(){
+                    if (lLoading) lLoading.close()
+                }
+            }
         });
 
         // display error datatable
@@ -106,6 +111,20 @@
                 url: "{{ URL::asset('plugins/datatables/DT_th.json') }}",
             },
         })
+
+        // loading box
+        var configLoading = {
+            // opacity
+            opacity: 0.85,
+            // background color
+            backgroundColor: "#FFF",
+            // width / height of the loading GIF
+            loadingImageWitdth: "80px",
+            loadingImageHeigth: "80px",
+            // path to the loading gif
+            loadingImageSrc: '{{ asset('images/loadding.gif') }}'
+        },
+        lLoading;
 
         // set default options sum
         $.extend(true,$.summernote.options,{

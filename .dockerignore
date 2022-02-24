@@ -1,0 +1,9 @@
+.git
+.idea
+node_modules
+.env
+public/storage
+# vendor
+storage/framework/cache/**
+storage/framework/sessions/**
+storage/framework/views/**

@@ -47,22 +47,28 @@
                                 </ul>
                             </div>
                         @endif
-                        <div class="col-12 table-responsive">
-                            <table id="tb-lists" class="table table-striped" style="width:100%">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>วันที่สร้าง</th>
-                                        <th>วันที่แก้ไข</th>
-                                        <th>ผู้สร้าง</th>
-                                        <th>ผู้แก้ไข</th>
-                                        <th>หัวข้อข่าว</th>
-                                        <th>รูปภาพ</th>
-                                        <th>จัดการ</th>
-                                    </tr>
-                                </thead>
-                                <tbody></tbody>
-                            </table>
+                        <div class="overlay-wrapper">
+                            <div class="overlay" id="tab-overlay" style="display: none;">
+                                <i class="fas fa-3x fa-sync-alt fa-spin"></i>
+                                <div class="text-bold pt-2">Loading...</div>
+                            </div>
+                            <div class="col-12 table-responsive">
+                                <table id="tb-lists" class="table table-striped" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>วันที่สร้าง</th>
+                                            <th>วันที่แก้ไข</th>
+                                            <th>ผู้สร้าง</th>
+                                            <th>ผู้แก้ไข</th>
+                                            <th>หัวข้อข่าว</th>
+                                            <th>รูปภาพ</th>
+                                            <th>จัดการ</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -296,6 +302,9 @@
                             }
                         } else {
                             return(`
+                                <a href="${row.action?.view}" class="btn btn-secondary btn-block btn-sm btn-flat mb-2">
+                                    <i class="fas fa-eye"></i> ดูรายละเอียด
+                                </a>
                                 <form method="POST" action="${row.action?.restore}" id="frmReStore_${row.activity_id}">
                                     @csrf
                                     <button type="button" class="btn btn-primary btn-block btn-sm btn-flat" id="btn-restore_${row.activity_id}">
@@ -331,6 +340,7 @@
                         })
                         if(rs) {
                             if (rs.isConfirmed) {
+                                $('#tab-overlay').show()
                                 $(e.target).closest('form')[0].submit()
                             }
                         }
@@ -342,6 +352,7 @@
                         const rs = await confirmAlert.fire()
                         if(rs) {
                             if (rs.isConfirmed) {
+                                $('#tab-overlay').show()
                                 $(e.target).closest('form')[0].submit()
                             }
                         }

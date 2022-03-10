@@ -24,7 +24,7 @@
                 return
             }
 
-            $(pdf_template(file.name,file.size)).appendTo($('.file-preview',content)) 
+            $(pdf_template(file.name,niceBytes(file.size))).appendTo($('.file-preview',content)) 
         }
     
     }

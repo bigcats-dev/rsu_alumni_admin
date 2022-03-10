@@ -40,7 +40,7 @@
                                     <div class="col-xl-2 col-12">
                                         <label for="">ชื่อหนังสือรุ่น</label>
                                     </div> 
-                                    <div class="col-xl-8 col-12"> 
+                                    <div class="col-xl-10 col-12"> 
                                         <input 
                                             type="text" 
                                             class="form-control form-control-border" 
@@ -55,7 +55,7 @@
                                     <div class="col-xl-2 col-12">
                                         <label for="">Hyperlink</label>
                                     </div> 
-                                    <div class="col-xl-8 col-12"> 
+                                    <div class="col-xl-10 col-12"> 
                                         <input 
                                             type="text" 
                                             class="form-control form-control-border" 
@@ -71,7 +71,7 @@
                                     <div class="col-xl-2 col-12">
                                         <label for="">ปีการศึกษา</label>
                                     </div> 
-                                    <div class="col-xl-8 col-12"> 
+                                    <div class="col-xl-10 col-12"> 
                                         <input 
                                             type="text" 
                                             class="form-control form-control-border" 
@@ -88,7 +88,7 @@
                                     <div class="col-xl-2 col-12">
                                         <label for="">คณะ</label>
                                     </div> 
-                                    <div class="col-xl-8 col-12"> 
+                                    <div class="col-xl-10 col-12"> 
                                         <select 
                                             class="selectpicker" 
                                             title="คณะ" 
@@ -115,7 +115,7 @@
                                     <div class="col-xl-2 col-12">
                                         <label for="">สาขาวิชา</label>
                                     </div> 
-                                    <div class="col-xl-8 col-12"> 
+                                    <div class="col-xl-10 col-12"> 
                                         <select 
                                             class="selectpicker" 
                                             title="สาขาวิชา" 
@@ -141,7 +141,7 @@
                                     <div class="col-xl-2 col-12">
                                         <label for="">รายละเอียด</label>
                                     </div> 
-                                    <div class="col-xl-8 col-12"> 
+                                    <div class="col-xl-10 col-12"> 
                                         <textarea 
                                             class="form-control form-textarea summernote" 
                                             name="detail" 
@@ -154,7 +154,7 @@
                                     <div class="col-xl-2 col-12">
                                         <label for="">ไฟล์</label>
                                     </div>
-                                    <div class="col-xl-8 col-12">
+                                    <div class="col-xl-10 col-12">
                                         @include("inputs.fileupload_pdf",[
                                             "name" => "files",
                                             "required" => is_null($data->pdf ?? null) ,
@@ -166,7 +166,7 @@
                                     <div class="col-xl-2 col-12">
                                         <label for="">รูปหนังสือ</label>
                                     </div>
-                                    <div class="col-xl-8 col-12">
+                                    <div class="col-xl-10 col-12">
                                         @include("inputs.fileupload_img",[
                                             "name" => "images",
                                             "required" => is_null($data->image ?? null) ,
@@ -177,25 +177,25 @@
                                         ])
                                     </div>
                                 </div>
-                                <div class="col-10 p-0">
+                                <div class="col-12 p-0">
                                     <hr>
                                 </div>
 
                                 <div class="form-group row">
                                     @if (Request::route()->getName() == "year-book.create")
                                         @can("create-year-book")
-                                            <div class="col-xl-5 col-12">
+                                            <div class="col-xl-6 col-12">
                                                 <button type="submit" class="btn btn-success btn-block" data-loading-text="กรุณารอซักครู่...">บันทึก</button>
                                             </div>
                                         @endcan
                                     @else
                                         @can("update-year-book")
-                                            <div class="col-xl-5 col-12">
+                                            <div class="col-xl-6 col-12">
                                                 <button type="submit" class="btn btn-success btn-block" data-loading-text="กรุณารอซักครู่...">บันทึก</button>
                                             </div>
                                         @endcan
                                     @endif
-                                    <div class="col-xl-5 col-12">
+                                    <div class="col-xl-6 col-12">
                                         <button type="button" class="btn btn-secondary btn-block" onclick="window.history.back()">กลับ</button>
                                     </div>
                                 </div>

@@ -78,7 +78,7 @@
                                     <div class="col-xl-2 col-12">
                                         <label for="">ชื่ออัลบั้ม</label>
                                     </div>
-                                    <div class="col-xl-8 col-12">
+                                    <div class="col-xl-10 col-12">
                                         <input 
                                             type="text" 
                                             class="form-control form-control-border" 
@@ -92,7 +92,7 @@
                                     <div class="col-xl-2 col-12">
                                         <label for="">รายละเอียด</label>
                                     </div>
-                                    <div class="col-xl-8 col-12">
+                                    <div class="col-xl-10 col-12">
                                         <textarea 
                                             class="form-control form-textarea summernote" 
                                             name="detail" 
@@ -101,24 +101,24 @@
                                             required>{{old("detail",$data->detail ?? "")}}</textarea>
                                     </div>
                                 </div>
-                                <div class="col-10 p-0">
+                                <div class="col-12 p-0">
                                     <hr>
                                 </div>
                                 <div class="form-group row">
                                     @if (Request::route()->getName() == "album.create")
                                         @can("create-album")
-                                            <div class="col-xl-5 col-12">
+                                            <div class="col-xl-6 col-12">
                                                 <button type="submit" class="btn btn-success btn-block" data-loading-text="กรุณารอซักครู่...">บันทึก</button>
                                             </div>
                                         @endcan
                                     @else
                                         @can("update-album")
-                                            <div class="col-xl-5 col-12">
+                                            <div class="col-xl-6 col-12">
                                                 <button type="submit" class="btn btn-success btn-block" data-loading-text="กรุณารอซักครู่...">บันทึก</button>
                                             </div>
                                         @endcan
                                     @endif
-                                    <div class="col-xl-5 col-12">
+                                    <div class="col-xl-6 col-12">
                                         <button type="button" class="btn btn-secondary btn-block" onclick="window.history.back()">กลับ</button>
                                     </div>
                                 </div>

@@ -128,6 +128,7 @@
 
         // set default options sum
         $.extend(true,$.summernote.options,{
+            placeholder: 'รายละเอียด',
             fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New','rsu-r'],
             fontNamesIgnoreCheck: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New','rsu-r'],
             toolbar: [
@@ -140,6 +141,7 @@
                 ['insert', ['link', 'picture', 'video']],
                 ['view', ['fullscreen', 'codeview', 'help']],
             ],
+            tableClassName: 'table table-striped table-bordered'
         })
 
         $(function() {
@@ -163,6 +165,15 @@
             title: 'แจ้งเตือน',
             text: 'คุณต้องการบันทึกข้อมูล ใช่หรือไม่ ?',
             icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'บันทึก',
+            cancelButtonText: 'ยกเลิก',
+        }),
+        confirmDelete = Swal.mixin({
+            title: 'แจ้งเตือน',
+            text: 'คุณต้องการลบข้อมูล ใช่หรือไม่ ?',
+            icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             confirmButtonText: 'บันทึก',

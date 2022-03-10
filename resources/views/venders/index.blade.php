@@ -189,6 +189,9 @@
                             }
                         } else {
                             return(`
+                                <a href="${row.action?.view}" class="btn btn-secondary btn-block btn-sm btn-flat mb-1">
+                                    <i class="fas fa-eye"></i> ดูรายละเอียด
+                                </a>
                                 <form method="POST" action="${row.action?.restore}" id="frmReStore_${row.vender_id}">
                                     @csrf
                                     <button type="button" class="btn btn-primary btn-block btn-sm btn-flat" id="btn-restore_${row.vender_id}">

@@ -19,7 +19,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\VenderController;
 use App\Http\Controllers\YearBookController;
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Support\Facades\Artisan;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -272,3 +272,9 @@ Route::middleware(["auth:token"])
                 Route::get("room", [ServiceController::class, "room"])->name("room");
             });
     });
+
+Route::get('/clear-cache', function () {
+    $exitCode = Artisan::call('config:cache');
+    $exitCode = Artisan::call('route:cache');
+    return 'DONE';
+});

@@ -40,7 +40,7 @@
                                     <div class="col-xl-2 col-12">
                                         <label for="">ชื่อกิจกรรมสปิริตคอยน์</label>
                                     </div> 
-                                    <div class="col-xl-8 col-12"> 
+                                    <div class="col-xl-10 col-12"> 
                                         <input 
                                         type="text" 
                                         class="form-control form-control-border" 
@@ -54,7 +54,7 @@
                                     <div class="col-xl-2 col-12">
                                         <label for="">บทนำ</label>
                                     </div> 
-                                    <div class="col-xl-8 col-12"> 
+                                    <div class="col-xl-10 col-12"> 
                                         <textarea 
                                             class="form-control form-textarea summernote" 
                                             name="introduction" 
@@ -67,7 +67,7 @@
                                     <div class="col-xl-2 col-12">
                                         <label for="">รายละเอียด</label>
                                     </div> 
-                                    <div class="col-xl-8 col-12"> 
+                                    <div class="col-xl-10 col-12"> 
                                         <textarea 
                                             class="form-control form-textarea summernote" 
                                             name="detail" 
@@ -80,7 +80,7 @@
                                     <div class="col-xl-2 col-12">
                                         <label for="">วันที่เริ่ม</label>
                                     </div>
-                                    <div class="col-xl-8 col-12">
+                                    <div class="col-xl-10 col-12">
                                         <div class="input-daterange input-group" id="datepicker">
                                             <input 
                                                 type="text" 
@@ -106,7 +106,7 @@
                                     <div class="col-xl-2 col-12">
                                         <label for="">สถานที่</label>
                                     </div> 
-                                    <div class="col-xl-8 col-12"> 
+                                    <div class="col-xl-10 col-12"> 
                                         <input 
                                             type="text" 
                                             class="form-control form-control-border" 
@@ -120,7 +120,7 @@
                                     <div class="col-xl-2 col-12">
                                         <label for="">รูปร้านค้าสปิริตคอยน์</label>
                                     </div>
-                                    <div class="col-xl-8 col-12">
+                                    <div class="col-xl-10 col-12">
                                         @include("inputs.fileupload_img",[
                                             "name" => "files",
                                             "required" => is_null($data->image ?? null) ,
@@ -128,24 +128,24 @@
                                         ])
                                     </div>
                                 </div> 
-                                <div class="col-10 p-0"> 
+                                <div class="col-12 p-0"> 
                                     <hr>
                                 </div>
                                 <div class="form-group row">
                                     @if (Request::route()->getName() == "spirit-coin-activity.create")
                                         @can("create-spirit-coin-activity")
-                                            <div class="col-xl-5 col-12">
+                                            <div class="col-xl-6 col-12">
                                                 <button type="submit" class="btn btn-success btn-block" data-loading-text="กรุณารอซักครู่...">บันทึก</button>
                                             </div>
                                         @endcan
                                     @else
                                         @can("update-spirit-coin-activity")
-                                            <div class="col-xl-5 col-12">
+                                            <div class="col-xl-6 col-12">
                                                 <button type="submit" class="btn btn-success btn-block" data-loading-text="กรุณารอซักครู่...">บันทึก</button>
                                             </div>
                                         @endcan
                                     @endif
-                                    <div class="col-xl-5 col-12">
+                                    <div class="col-xl-6 col-12">
                                         <button type="button" class="btn btn-secondary btn-block" onclick="window.history.back()">กลับ</button>
                                     </div>
                                 </div>  

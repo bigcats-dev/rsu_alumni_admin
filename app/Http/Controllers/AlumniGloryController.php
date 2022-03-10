@@ -40,7 +40,7 @@ class AlumniGloryController extends Controller
                 if ($typeQuery != "3") {
                     $query->where("approved", $typeQuery)->where("alumni_glories.status", 1);
                 } else {
-                    $query->where("status", 0);
+                    $query->where("alumni_glories.status", 0);
                 }
             };
             $totalData = AlumniGlory::where($whereCondition)->count();

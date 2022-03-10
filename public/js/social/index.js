@@ -1,10 +1,7 @@
 (function($){
     $(document).on('click','button.delete',async function(e){
         e.preventDefault()
-        const rs = await confirmAlert.fire({
-            text: 'คุณต้องการลบข้อมูล ใช่หรือไม่?',
-            icon: 'warning',
-        })
+        const rs = await confirmDelete.fire()
         if(rs) {
             if (rs.isConfirmed) {
                 $(this).closest('h5').find('form#frmDestroy_' + $(this).data('id'))[0].submit()

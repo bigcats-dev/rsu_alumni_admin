@@ -66,10 +66,7 @@ var frmSave = $('form#frmAward');
 
     $(document).on('click','ul#tree_award li i.fa-trash',async function(e){
         e.preventDefault()
-        const rs = await confirmAlert.fire({
-            text: 'คุณต้องการลบข้อมูล ใช่หรือไม่?',
-            icon: 'warning',
-        })
+        const rs = await confirmDelete.fire()
         if(rs) {
             if (rs.isConfirmed) {
                 $('#tab-overlay').show()

@@ -84,9 +84,9 @@ RUN chown -R www-data:www-data \
 
 RUN mv .env.prod .env
 
-RUN php artisan optimize
+# RUN php artisan optimize
 
-RUN php artisan storage:link
+# RUN php artisan storage:link
 
 EXPOSE 9000
 

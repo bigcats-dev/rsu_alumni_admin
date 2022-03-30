@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Helpers\Helper;
 use App\Http\Requests\ActivityRequest;
+use App\Jobs\SendMailToAlumni;
 use App\Models\ActivityImage;
 use App\Models\ActivityRoom;
 use App\Models\ActivityRoomSchedule;
@@ -16,6 +17,8 @@ use App\Models\RoomGroup;
 use App\Models\RoomSubGroup;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use App\Models\Faculty;
+use App\Models\Major;
 
 class ActivityController extends Controller
 {
@@ -99,6 +102,8 @@ class ActivityController extends Controller
         return view("activitys.index", [
             "badge" => Activity::where([["approved", "=", 0], ["status", "=", 1]])->count(),
             "records" => Activity::where([["approved", "=", 1], ["status", "=", 1]])->count(),
+            "ms_faculty" => Faculty::all(),
+            "ms_major" => Major::all(),
         ]);
     }
 
@@ -305,6 +310,17 @@ class ActivityController extends Controller
                     "user_approve_id" => auth()->id(),
                     "approved_at" => DB::raw("CURRENT_DATE"),
                 ]);
+
+                if ($request->input("rad") == "2" || $request->input("rad") == "3") {
+                    /**
+                     * @param Activity object
+                     * @param array  Graduation conditions
+                     * @param string View mail template
+                     * 
+                     */
+                    $jobMail = new SendMailToAlumni($activity,$request->has("setting") ? $request->input("setting") : [],"mails.activity");
+                    dispatch($jobMail)->onQueue("notification")->afterCommit();
+                }
             });
             return redirect()->back()->with("success", "บันทึกข้อมูลข่าวสารกิจกรรมเรียบร้อย");
         } catch (\Exception $e) {

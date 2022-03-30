@@ -169,15 +169,12 @@
                 <label for=""><strong>{1}</strong></label>  
             </div>
             <div class="col-3"> 
-                <select 
-                    class="selectpicker" 
-                    title="เลือกปีการศึกษา" 
-                    data-show-subtext="true" 
-                    data-live-search="true" 
-                    name="setting[{0}][year]"
-                    data-msg-required="กรุณาเลือก"
-                    required> 
-                </select>
+                <input 
+                    type="text" 
+                    name="setting[{0}][year]" 
+                    placeholder="ปีที่จบการศึกษา"
+                    class="form-control"
+                    required>
             </div>
             <div class="col-3 sel2"> 
                 <select 
@@ -188,6 +185,11 @@
                     name="setting[{0}][faculty]"
                     data-msg-required="กรุณาเลือก"
                     required> 
+                    @if (count($ms_faculty) > 0)
+                        @foreach ($ms_faculty as $i)
+                            <option value="{{ $i->faculty_code }}">{{ $i->faculty_name_th }}</option>
+                        @endforeach
+                    @endif
                 </select>
             </div>
             <div class="col-4 sel3"> 
@@ -198,7 +200,12 @@
                     data-live-search="true"
                     name="setting[{0}][department]"
                     data-msg-required="กรุณาเลือก"
-                    required> 
+                    required>
+                    @if (count($ms_major) > 0)
+                        @foreach ($ms_major as $i)
+                            <option value="{{ $i->major_code }}">{{ $i->major_name_th }}</option>
+                        @endforeach
+                    @endif
                     </select>
             </div> 
             <div class="col-1">
@@ -336,7 +343,8 @@
                         }
                     })
             }
-        });
+        }),
+        ms_majors = @json($ms_major);
     </script>
     <script src="{{ URL::asset("js/recruitment/index.js?t=".time()) }}"></script>
 @endsection

@@ -118,7 +118,7 @@
                                 </div> 
                                 <div class="form-group row">
                                     <div class="col-xl-2 col-12">
-                                        <label for="">รูปร้านค้าสปิริตคอยน์</label>
+                                        <label for="">รูปกิจกรรมสปิริตคอยน์</label>
                                     </div>
                                     <div class="col-xl-10 col-12">
                                         @include("inputs.fileupload_img",[

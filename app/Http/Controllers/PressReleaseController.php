@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Helper;
 use App\Http\Requests\TrainingNewRequest;
+use App\Jobs\SendMailToAlumni;
 use App\Models\TrainingNew;
 use App\Models\TrainingNewImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use App\Models\Faculty;
+use App\Models\Major;
 
 class PressReleaseController extends Controller
 {
@@ -90,6 +93,8 @@ class PressReleaseController extends Controller
         return view("press-releases.index", [
             "badge" => TrainingNew::where([["approved", "=", 0], ["status", "=", 1]])->count(),
             "records" => TrainingNew::where([["approved", "=", 1], ["status", "=", 1]])->count(),
+            "ms_faculty" => Faculty::all(),
+            "ms_major" => Major::all(),
         ]);
     }
 
@@ -280,6 +285,17 @@ class PressReleaseController extends Controller
                     "user_approve_id" => auth()->id(),
                     "approved_at" => DB::raw("CURRENT_DATE"),
                 ]);
+
+                if ($request->input("rad") == "2" || $request->input("rad") == "3") {
+                    /**
+                     * @param TrainingNew object
+                     * @param array  Graduation conditions
+                     * @param string View mail template
+                     * 
+                     */
+                    $jobMail = new SendMailToAlumni($training_new,$request->has("setting") ? $request->input("setting") : [],"mails.press_release");
+                    dispatch($jobMail)->onQueue("notification")->afterCommit();
+                }
             });
             return redirect()->back()->with("success", "บันทึกข้อมูลข่าวสารประชาสัมพันธ์เรียบร้อย");
         } catch (\Exception $e) {

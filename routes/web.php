@@ -3,6 +3,7 @@
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\AlbumController;
 use App\Http\Controllers\AlumniAffairsController;
+use App\Http\Controllers\AlumniController;
 use App\Http\Controllers\AlumniGloryController;
 use App\Http\Controllers\AwardController;
 use App\Http\Controllers\CareerNewsController;
@@ -83,6 +84,12 @@ Route::middleware(["auth:token"])
                 Route::post("{recruitment}/active", [RecruitmentController::class, "active"])->name("active");
                 Route::post("{recruitment}/approve", [RecruitmentController::class, "approve"])->name("approve");
                 Route::post("{recruitment}/restore", [RecruitmentController::class, "restore"])->name("restore");
+            });
+
+        Route::prefix("alumni")
+            ->name("alumni.")
+            ->group(function(){
+                Route::get("/", [AlumniController::class, "index"])->name("index");
             });
 
         Route::prefix("alumni-affairs")

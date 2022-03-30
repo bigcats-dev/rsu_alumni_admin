@@ -101,5 +101,18 @@ function cloneSetting() {
     const k = typeof i === 'undefined' ? 0 : i + 1
     $(settingmail_template(k, k + 1))
         .find('.selectpicker').selectpicker('refresh').end()
+        .find('[name="setting[' + k + '][faculty]"]')
+            .change(function(){
+                var slMajor = $('[name="setting[' + k + '][department]"]',frmApprove)
+                $('option:not(:first)',slMajor).remove()
+                var datas = []
+                if ($(this).val() != '')
+                    datas = ms_majors.filter((i) => i.faculty_code == $(this).val())
+                else
+                    datas = [...ms_majors]
+                datas.forEach((i) => slMajor.append(`<option value="${i.major_code}">${i.major_name_th}</option>`))
+                slMajor.selectpicker('refresh')
+            })
+            .end()
         .insertBefore($('div.btn-add', frmApprove))
 }

@@ -7,10 +7,13 @@ use App\Models\CareerNews;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Helpers\Helper;
+use App\Jobs\SendMailToAlumni;
 use App\Models\CareerNewsFile;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Faculty;
+use App\Models\Major;
 
 class CareerNewsController extends Controller
 {
@@ -94,6 +97,8 @@ class CareerNewsController extends Controller
         return view("career-news.index", [
             "badge" => CareerNews::where([["approved", "=", 0], ["status", "=", 1]])->count(),
             "records" => CareerNews::where([["approved", "=", 1], ["status", "=", 1]])->count(),
+            "ms_faculty" => Faculty::all(),
+            "ms_major" => Major::all(),
         ]);
     }
 
@@ -281,6 +286,17 @@ class CareerNewsController extends Controller
                     "user_approve_id" => auth()->id(),
                     "approved_at" => DB::raw("CURRENT_DATE"),
                 ]);
+
+                if ($request->input("rad") == "2" || $request->input("rad") == "3") {
+                    /**
+                     * @param CareerNews object
+                     * @param array  Graduation conditions
+                     * @param string View mail template
+                     * 
+                     */
+                    $jobMail = new SendMailToAlumni($news,$request->has("setting") ? $request->input("setting") : [],"mails.career_news");
+                    dispatch($jobMail)->onQueue("notification")->afterCommit();
+                }
             });
             return redirect()->back()->with("success", "บันทึกข้อมูลข่าวอบรมหลักสูตรอาชีพเรียบร้อย");
         } catch (\Exception $e) {

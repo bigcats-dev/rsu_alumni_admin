@@ -12,7 +12,7 @@
         </div>
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a href="index.html" class="nav-link">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
@@ -20,7 +20,7 @@
                             <span class="right badge badge-success">3</span>
                         </p>
                     </a>
-                </li>
+                </li> --}}
                 @can("view-press-release")
                     <li class="nav-item">
                         <a 
@@ -55,7 +55,7 @@
                 @endcan
                 <li class="nav-item">
                     <a 
-                        href="#" 
+                        href="{{route("alumni.index")}}" 
                         class="nav-link">
                         <i class="nav-icon fas fa-list"></i>
                         <p>รายชื่อศิษย์เก่า</p>

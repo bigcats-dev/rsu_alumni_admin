@@ -113,6 +113,7 @@ return [
      */
     'subject' => [
         'registation' => env('MAIL_SUBJECT_REGIS'),
+        'notification' => env('MAIL_SUBJECT_NOTIFICATION'),
     ]
 
 ];

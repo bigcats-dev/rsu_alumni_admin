@@ -6,15 +6,19 @@ use App\Models\Recruitment;
 use Illuminate\Http\Request;
 use App\Helpers\Helper;
 use App\Http\Requests\RecruitmentRequest;
+use App\Jobs\SendMailToAlumni;
 use App\Models\RecruitmentImage;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use App\Models\Faculty;
+use App\Models\Major;
 
 class RecruitmentController extends Controller
 {
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware("can:view-recruitment");
-        $this->middleware("can:create-recruitment")->only(["create","store"]);
+        $this->middleware("can:create-recruitment")->only(["create", "store"]);
         $this->middleware("can:update-recruitment")->only("update");
         $this->middleware("can:del-recruitment")->only("destroy");
         $this->middleware("can:approve-recruitment")->only("approve");
@@ -90,6 +94,8 @@ class RecruitmentController extends Controller
         return view("recruitments.index", [
             "badge" => Recruitment::where([["approved", "=", 0], ["status", "=", 1]])->count(),
             "records" => Recruitment::where([["approved", "=", 1], ["status", "=", 1]])->count(),
+            "ms_faculty" => Faculty::all(),
+            "ms_major" => Major::all(),
         ]);
     }
 
@@ -113,7 +119,7 @@ class RecruitmentController extends Controller
     {
         $request->validated();
         try {
-            DB::transaction(function() use ($request){
+            DB::transaction(function () use ($request) {
                 $upload = false;
                 if ($request->hasFile("files")) {
                     if (!in_array($request->file("files")->getClientOriginalExtension(), ["png", "jpg", "jpeg"])) {
@@ -153,7 +159,7 @@ class RecruitmentController extends Controller
      */
     public function show(Recruitment $recruitment)
     {
-        return view("recruitments.form",["data" => $recruitment]);
+        return view("recruitments.form", ["data" => $recruitment]);
     }
 
     /**
@@ -164,7 +170,7 @@ class RecruitmentController extends Controller
      */
     public function edit(Recruitment $recruitment)
     {
-        return view("recruitments.form",["data" => $recruitment]);
+        return view("recruitments.form", ["data" => $recruitment]);
     }
 
     /**
@@ -187,7 +193,7 @@ class RecruitmentController extends Controller
                     $upload = true;
                 }
                 $recruitment->update($request->merge(["user_update_id" => auth()->id()])->except(["files"]));
-                
+
                 if ($upload) {
                     $file = $request->file("files");
                     $extension = $file->getClientOriginalExtension();
@@ -222,7 +228,7 @@ class RecruitmentController extends Controller
      */
     public function destroy(Recruitment $recruitment)
     {
-        $recruitment->update(["status" => 0 , "approved" => 0]);
+        $recruitment->update(["status" => 0, "approved" => 0]);
         return redirect()->back()->with("success", "บันทึกข้อมูลข่าวสารกิจกรรมเรียบร้อย");
     }
 
@@ -259,6 +265,17 @@ class RecruitmentController extends Controller
                     "user_approve_id" => auth()->id(),
                     "approved_at" => DB::raw("CURRENT_DATE"),
                 ]);
+
+                if ($request->input("rad") == "2" || $request->input("rad") == "3") {
+                    /**
+                     * @param Recruitment object
+                     * @param array  Graduation conditions
+                     * @param string View mail template
+                     * 
+                     */
+                    $jobMail = new SendMailToAlumni($recruitment, $request->has("setting") ? $request->input("setting") : [], "mails.recruitment");
+                    dispatch($jobMail)->onQueue("notification")->afterCommit();
+                }
             });
             return redirect()->back()->with("success", "บันทึกข้อมูลการรับสมัครงานเรียบร้อย");
         } catch (\Exception $e) {
